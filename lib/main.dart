@@ -41,6 +41,7 @@ import 'features/public_features/screen/unknownrout_screen.dart';
 void main() async {
   HttpOverrides.global = MyHttpOverrides();
 
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: systemChrome,
       statusBarIconBrightness: Brightness.dark,
@@ -95,7 +96,7 @@ class MyApp extends StatelessWidget {
             onUnknownRoute: (settings) => MaterialPageRoute(
               builder: (context) => const UnKnowRoutScreen(),
             ),
-            initialRoute: ScreenNames.bottomNavBarHostScreen ,
+            initialRoute: ScreenNames.splashScreen ,
             routes: routes,
             //  home: HostPersianDatePicker(),
           ),

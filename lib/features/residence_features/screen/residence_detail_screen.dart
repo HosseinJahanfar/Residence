@@ -9,11 +9,8 @@ import 'package:flutter_font_icons/flutter_font_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:residence/const/shape/shape.dart';
-import 'package:residence/features/comment_features/screen/show_comment_screen.dart';
-import 'package:residence/features/favorite_features/services/favorite_api_services.dart';
-import 'package:residence/features/public_features/functions/number_to_three.dart';
 import 'package:residence/features/residence_features/logic/residence_bloc.dart';
+import 'package:residence/features/residence_features/services/residence_api_services.dart';
 import 'package:residence/features/residence_features/services/residence_repository.dart';
 import 'package:residence/features/residence_features/widget/RulesAndRegulationsWidget.dart';
 import 'package:residence/features/residence_features/widget/additional_person_widget.dart';
@@ -22,7 +19,6 @@ import 'package:residence/features/residence_features/widget/flutter_map_widget.
 import 'package:residence/features/residence_features/widget/reservation_btn_widget.dart';
 import 'package:residence/features/residence_features/widget/residence_address_widget.dart';
 import 'package:residence/features/residence_features/widget/residence_date_picker.dart';
-import 'package:residence/features/residence_features/widget/time_card_widget.dart';
 import 'package:residence/route/names.dart';
 import '../../../const/shape/border_radius.dart';
 import '../../../const/shape/media_query.dart';
@@ -38,14 +34,12 @@ class ResidenceDetailScreen extends StatelessWidget {
   ResidenceDetailScreen({super.key});
 
   final CarouselController carouselController = CarouselController();
-  final List<String> selectedDates = [];
 
   @override
   Widget build(BuildContext context) {
     //!id
     final Map<String, dynamic> arguments =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    // print(arguments['residence_detail_id'].toString());
 
     return SafeArea(
         child: Scaffold(
@@ -329,7 +323,6 @@ class ResidenceDetailScreen extends StatelessWidget {
                                           //!ResidenceDatePicker
                                           ResidenceDatePicker(
                                             helperDetail: helperDetail,
-                                            selectedDates: selectedDates,
                                           )
                                         ],
                                       ),
@@ -371,10 +364,10 @@ class ResidenceDetailScreen extends StatelessWidget {
                                                 child: AbsorbPointer(
                                                   absorbing: true,
                                                   child: FlutterMapWidget(
-                                                    lat: helperDetail.location!
-                                                        .latitude!,
-                                                    long: helperDetail.location!
-                                                        .longitude!,
+                                                    lat: helperDetail
+                                                        .location!.latitude!,
+                                                    long: helperDetail
+                                                        .location!.longitude!,
                                                     initialZoom: 14.sp,
                                                     interAction: false,
                                                   ),
@@ -435,7 +428,6 @@ class ResidenceDetailScreen extends StatelessWidget {
                   //!elevated-button
                   ReservationBtnWidget(
                     helperDetail: helperDetail,
-                    selectedDates: selectedDates,
                   ),
                 ],
               );

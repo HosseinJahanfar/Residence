@@ -1,4 +1,5 @@
 class KeySendDataHost {
+  //! Submit Residence
   static int residenceTypeId = 0;
   static String residenceName = '';
   static String residenceDescription = '';
@@ -18,6 +19,9 @@ class KeySendDataHost {
   static double long = 0;
   static List<String> imageList = [];
   static int idHostSubmitResidence=0;
+
+  //!send date List
+  static List<String> sendDates=[];
 
 
 }

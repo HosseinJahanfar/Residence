@@ -1,11 +1,6 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import '../../../../const/connection.dart';
-import '../../../../const/string.dart';
 import '../../../public_features/functions/secure_storage.dart';
-import 'dart:developer';
-import 'package:dio/dio.dart' as dio_service;
 
 class DashboardApiServices {
   final Dio _dio = Dio();
@@ -139,12 +134,6 @@ class DashboardApiServices {
           await MultipartFile.fromFile(imagePath, filename: imagePath.split('/').last),
         ));
       }
-
-      print('----------------');
-      print("Token: $token");
-      print("Image List: $imageList");
-      print("FormData: ${formData.fields}");
-      print("Files: ${formData.files}");
 
       final Response response = await _dio.post(
         'http://api.netopen.ir/accommodation/create',

@@ -43,9 +43,9 @@ class ResidenceDetailModel {
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     location = json['location'] != null ? Location.fromJson(json['location']) : null;
     fav = json['fav'];
-    defaultPrice = json['default_price'] is int ? (json['default_price'] as int).toDouble() : json['default_price'];
+    defaultPrice = json['default_price'] is double ? (json['default_price'] as double).toInt() : json['default_price'];
     discountPercentage = json['discount_percentage'];
-    percentPrice = json['percent_price'] is int ? (json['percent_price'] as int).toDouble() : json['percent_price'];
+    percentPrice = json['percent_price'] is double ? (json['percent_price'] as double).toInt() : json['percent_price'];
     totalComments = json['total_comments'];
     if (json['comments'] != null) {
       comments = [];
@@ -86,9 +86,9 @@ class ResidenceDetailModel {
   User? user;
   Location? location;
   bool? fav;
-  double? defaultPrice;
+  int? defaultPrice;
   int? discountPercentage;
-  double? percentPrice;
+  int? percentPrice;
   int? totalComments;
   List<Comments>? comments;
   List<Days>? days;
@@ -182,18 +182,18 @@ class Days {
 
   Days.fromJson(dynamic json) {
     id = json['id'];
-    date = json['date'];
-    defaultPrice = json['default_price'] is int ? (json['default_price'] as int).toDouble() : json['default_price'];
+    date = (json['date'] as String).replaceAll('-', '/');
+    defaultPrice = json['default_price'] is double ? (json['default_price'] as double).toInt() : json['default_price'];
     discountPercentage = json['discount_percentage'];
-    percentPrice = json['percent_price'] is int ? (json['percent_price'] as int).toDouble() : json['percent_price'];
+    percentPrice = json['percent_price'] is double ? (json['percent_price'] as double).toInt() : json['percent_price'];
     reservedStatus = json['reserved_status'];
   }
 
   int? id;
   String? date;
-  double? defaultPrice;
+  int? defaultPrice;
   int? discountPercentage;
-  double? percentPrice;
+  int? percentPrice;
   bool? reservedStatus;
 
   Map<String, dynamic> toJson() {
