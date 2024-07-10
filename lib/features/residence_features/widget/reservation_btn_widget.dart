@@ -1,14 +1,23 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_font_icons/flutter_font_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:residence/features/host_features/calender_features/model/all_date_model.dart';
+import 'package:residence/features/public_features/widget/error_screen_widget.dart';
 import 'package:residence/features/public_features/widget/snack_bar.dart';
+import 'package:residence/features/residence_features/model/calculate_price_model.dart';
 import 'package:residence/features/residence_features/model/residence_detail_model.dart';
+import 'package:residence/features/residence_features/services/residence_repository.dart';
+import 'package:residence/features/residence_features/widget/calculate_price_widget.dart';
 import 'package:residence/features/residence_features/widget/outline_btn_widget.dart';
 import '../../../const/shape/border_radius.dart';
 import '../../../const/shape/media_query.dart';
 import '../../../const/string.dart';
 import '../../../const/theme/colors.dart';
 import '../../public_features/functions/number_to_three.dart';
+import '../logic/rezerve_residence/residence_reservation_bloc.dart';
 
 class ReservationBtnWidget extends StatelessWidget {
   const ReservationBtnWidget({super.key, required this.helperDetail});
@@ -91,252 +100,81 @@ class ReservationBtnWidget extends StatelessWidget {
                       context,
                       'لطفا برای رزرو اقامتگاه یک روز رو انتخاب کنید.',
                       Colors.red);
-                }else{
-                  print(KeySendDataHost.sendDates.length);
+                } else {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Container(
+                          width: getAllWidth(context),
+                          height: getWidth(context, 1),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20.sp),
+                                topLeft: Radius.circular(20.sp)),
+                          ),
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                              child: SingleChildScrollView(
+                                child: BlocProvider(
+                                  create: (context) => ResidenceReservationBloc(
+                                      ResidenceDetailRepository())
+                                    ..add(CallResidenceReservationEvent(
+                                        dayIds: KeySendDataHost.sendDates.length
+                                            .toString(),
+                                        numPeople: '1')),
+                                  child: BlocBuilder<ResidenceReservationBloc,
+                                      ResidenceReservationState>(
+                                    builder: (context, state) {
+                                      if (state
+                                          is ResidenceReservationLoading) {
+                                        return const Center(
+                                          child: SpinKitFadingCube(
+                                            color: primaryColor,
+                                            size: 40.0,
+                                          ),
+                                        );
+                                      }
 
+                                      if (state
+                                          is ResidenceReservationCompleted) {
+                                        CalculatePriceModel helper =
+                                            state.calculatePriceModel;
+                                        return CalculatePriceWidget(
+                                            helper: helper);
+                                      }
+
+                                      if (state is ResidenceReservationError) {
+                                        return ErrorScreenWidget(
+                                            errorMsg: state.error.toString(),
+                                            function: () {
+                                              context
+                                                  .read<
+                                                      ResidenceReservationBloc>()
+                                                  .add(
+                                                      CallResidenceReservationEvent(
+                                                          dayIds:
+                                                              KeySendDataHost
+                                                                  .sendDates
+                                                                  .length
+                                                                  .toString(),
+                                                          numPeople: '1'));
+                                            });
+                                      }
+                                      return const SizedBox.shrink();
+                                    },
+                                  ),
+                                ),
+                              )),
+                        ),
+                      );
+                    },
+                  );
                 }
-                // print(selectedDates);
-                // showModalBottomSheet(
-                //   context: context,
-                //   builder: (context) {
-                //     return Padding(
-                //       padding: EdgeInsets.only(
-                //           bottom: MediaQuery.of(context).viewInsets.bottom),
-                //       child: Container(
-                //         width: getAllWidth(context),
-                //         height: getWidth(context, 1),
-                //         decoration: BoxDecoration(
-                //           color: Colors.white,
-                //           borderRadius: BorderRadius.only(
-                //               topRight: Radius.circular(20.sp),
-                //               topLeft: Radius.circular(20.sp)),
-                //         ),
-                //         child: Padding(
-                //             padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                //             child: SingleChildScrollView(
-                //               child: Column(
-                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                 children: [
-                //                   //!circle container
-                //                   Center(
-                //                     child: Container(
-                //                       width: 100.sp,
-                //                       height: 5,
-                //                       margin:
-                //                           EdgeInsets.symmetric(vertical: 10.sp),
-                //                       decoration: BoxDecoration(
-                //                           color: Colors.grey.shade300,
-                //                           borderRadius:
-                //                               getBorderRadiusFunc(1000)),
-                //                     ),
-                //                   ),
-                //
-                //                   Row(
-                //                     children: [
-                //                       const Icon(AntDesign.calendar),
-                //                       SizedBox(
-                //                         width: 2.5.sp,
-                //                       ),
-                //                       Text(
-                //                           ' رزو ${KeySendDataHost.sendDates.length} روز')
-                //                     ],
-                //                   ),
-                //
-                //                   SizedBox(
-                //                     height: 15.sp,
-                //                   ),
-                //                   //! Section 1
-                //                   SizedBox(
-                //                     width: getAllWidth(context),
-                //                     child: Row(
-                //                       children: [
-                //                         Expanded(
-                //                           flex: 4,
-                //                           child: Row(
-                //                             children: [
-                //                               const Icon(Fontisto.persons),
-                //                               SizedBox(
-                //                                 width: 10.sp,
-                //                               ),
-                //                               Column(
-                //                                 crossAxisAlignment:
-                //                                     CrossAxisAlignment.start,
-                //                                 mainAxisAlignment:
-                //                                     MainAxisAlignment
-                //                                         .spaceBetween,
-                //                                 children: [
-                //                                   Text(
-                //                                     'تعداد مسافران',
-                //                                     style: TextStyle(
-                //                                         fontFamily: 'medium',
-                //                                         color: Colors
-                //                                             .grey.shade500),
-                //                                   ),
-                //                                   const Text('9نفر',
-                //                                       style: TextStyle(
-                //                                         fontFamily: 'medium',
-                //                                       ))
-                //                                 ],
-                //                               )
-                //                             ],
-                //                           ),
-                //                         ),
-                //                         Expanded(
-                //                           flex: 2,
-                //                           child: Row(
-                //                             mainAxisAlignment:
-                //                                 MainAxisAlignment.spaceEvenly,
-                //                             children: [
-                //                               OutlineBtnWidget(
-                //                                 iconData: AntDesign.plus,
-                //                                 func: () {},
-                //                               ),
-                //                               Text(
-                //                                 '1',
-                //                                 style:
-                //                                     TextStyle(fontSize: 12.sp),
-                //                               ),
-                //                               OutlineBtnWidget(
-                //                                 iconData: Entypo.minus,
-                //                                 func: () {},
-                //                               ),
-                //                             ],
-                //                           ),
-                //                         )
-                //                       ],
-                //                     ),
-                //                   ),
-                //                   SizedBox(
-                //                     height: 10.sp,
-                //                   ),
-                //                   Divider(
-                //                     height: 1,
-                //                     color: Colors.grey.shade300,
-                //                   ),
-                //                   SizedBox(
-                //                     height: 10.sp,
-                //                   ),
-                //                   //!Section 2
-                //                   Text(
-                //                     'خلاصه پرداخت',
-                //                     style: TextStyle(
-                //                         fontFamily: 'bold', fontSize: 14.sp),
-                //                   ),
-                //                   SizedBox(
-                //                     height: 10.sp,
-                //                   ),
-                //                   const Row(
-                //                     mainAxisAlignment:
-                //                         MainAxisAlignment.spaceBetween,
-                //                     children: [
-                //                       Text(
-                //                         '3 شب اقمتگاه',
-                //                       ),
-                //                       Text('data'),
-                //                     ],
-                //                   ),
-                //                   SizedBox(
-                //                     height: 10.sp,
-                //                   ),
-                //
-                //                   const Row(
-                //                     mainAxisAlignment:
-                //                         MainAxisAlignment.spaceBetween,
-                //                     children: [
-                //                       Text('data'),
-                //                       Text('data'),
-                //                     ],
-                //                   ),
-                //                   SizedBox(
-                //                     height: 10.sp,
-                //                   ),
-                //
-                //                   Row(
-                //                     mainAxisAlignment:
-                //                         MainAxisAlignment.spaceBetween,
-                //                     children: [
-                //                       Text('data'),
-                //                       Text('data'),
-                //                     ],
-                //                   ),
-                //                   SizedBox(
-                //                     height: 10.sp,
-                //                   ),
-                //                   Divider(
-                //                     height: 1,
-                //                     color: Colors.grey.shade300,
-                //                   ),
-                //                   SizedBox(
-                //                     height: 10.sp,
-                //                   ),
-                //
-                //                   const Row(
-                //                     mainAxisAlignment:
-                //                         MainAxisAlignment.spaceBetween,
-                //                     children: [
-                //                       Text('data'),
-                //                       Text('data'),
-                //                     ],
-                //                   ),
-                //
-                //                   SizedBox(
-                //                     height: 20.sp,
-                //                   ),
-                //                   Divider(
-                //                     height: 1,
-                //                     color: Colors.grey.shade300,
-                //                   ),
-                //                   SizedBox(
-                //                     height: 10.sp,
-                //                   ),
-                //                   Row(
-                //                     children: [
-                //                       Expanded(
-                //                         flex: 2,
-                //                         child: ElevatedButton(
-                //                             style: ElevatedButton.styleFrom(
-                //                                 shape: RoundedRectangleBorder(
-                //                                     borderRadius:
-                //                                         getBorderRadiusFunc(5)),
-                //                                 backgroundColor:
-                //                                     Colors.grey.shade300),
-                //                             onPressed: () {},
-                //                             child: const Text(
-                //                               "بستن",
-                //                               style: TextStyle(
-                //                                   fontFamily: 'medium',
-                //                                   color: Colors.black),
-                //                             )),
-                //                       ),
-                //                       const SizedBox(
-                //                         width: 5,
-                //                       ),
-                //                       Expanded(
-                //                         flex: 4,
-                //                         child: ElevatedButton(
-                //                             style: ElevatedButton.styleFrom(
-                //                               backgroundColor: primary2Color,
-                //                               shape: RoundedRectangleBorder(
-                //                                   borderRadius:
-                //                                       getBorderRadiusFunc(5)),
-                //                             ),
-                //                             onPressed: () {},
-                //                             child: const Text(
-                //                               "ادامه رزرو",
-                //                               style: TextStyle(
-                //                                   fontFamily: 'medium',
-                //                                   color: Colors.white),
-                //                             )),
-                //                       ),
-                //                     ],
-                //                   )
-                //                 ],
-                //               ),
-                //             )),
-                //       ),
-                //     );
-                //   },
-                // );
               },
               child: const Text(
                 'رزو اقامتگاه',

@@ -20,6 +20,7 @@ class ResidenceReservationBloc
       emit(ResidenceReservationLoading());
 
       try {
+
         CalculatePriceModel calculatePriceModel =
             await _residenceDetailRepository.calculatePrice(
                 event.dayIds, event.numPeople);

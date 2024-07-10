@@ -1,6 +1,6 @@
 class CalculatePriceModel {
   CalculatePriceModel({
-      this.daysCount, 
+      this.maximumPerson, 
       this.totalPrice, 
       this.additionalCount, 
       this.additionalPrice, 
@@ -8,14 +8,14 @@ class CalculatePriceModel {
       this.finalPrice,});
 
   CalculatePriceModel.fromJson(dynamic json) {
-    daysCount = json['days_count'];
+    maximumPerson = json['maximum_person'];
     totalPrice = json['total_price'];
     additionalCount = json['additional_count'];
     additionalPrice = json['additional_price'];
     totalDiscount = json['total_discount'];
     finalPrice = json['final_price'];
   }
-  int? daysCount;
+  int? maximumPerson;
   int? totalPrice;
   int? additionalCount;
   int? additionalPrice;
@@ -24,7 +24,7 @@ class CalculatePriceModel {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['days_count'] = daysCount;
+    map['maximum_person'] = maximumPerson;
     map['total_price'] = totalPrice;
     map['additional_count'] = additionalCount;
     map['additional_price'] = additionalPrice;
