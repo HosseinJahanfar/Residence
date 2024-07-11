@@ -5,7 +5,9 @@ import 'package:meta/meta.dart';
 import 'package:residence/features/public_features/error/error_exception.dart';
 import '../model/residence_detail_model.dart';
 import '../services/residence_repository.dart';
+
 part 'residence_event.dart';
+
 part 'residence_state.dart';
 
 class ResidenceBloc extends Bloc<ResidenceEvent, ResidenceState> {
@@ -13,19 +15,38 @@ class ResidenceBloc extends Bloc<ResidenceEvent, ResidenceState> {
 
   ResidenceBloc(this._residenceDetailRepository) : super(ResidenceInitial()) {
     on<CallResidenceEvent>(_onCallResidenceApi);
+    on<CallReserveDaysEvent>(_onCallReserveDaysEvent);
   }
+
+  ResidenceDetailModel residenceDetailModel = ResidenceDetailModel();
 
   FutureOr<void> _onCallResidenceApi(
       CallResidenceEvent event, Emitter<ResidenceState> emit) async {
     emit(ResidenceLoadingState());
 
     try {
-      ResidenceDetailModel residenceDetailModel =
+      residenceDetailModel =
           await _residenceDetailRepository.callDetailProduct(event.id);
       emit(ResidenceCompletedSate(residenceModel: residenceDetailModel));
     } on DioException catch (e) {
       emit(
           ResidenceErrorSate(error: ErrorExceptions().fromError(e).toString()));
+    }
+  }
+
+  // متدی برای ارسال داده‌های روزهای رزرو و تعداد افراد با متد POST به سرور
+
+  FutureOr<void> _onCallReserveDaysEvent(
+      CallReserveDaysEvent event, Emitter<ResidenceState> emit) async {
+    emit(ReserveDaysLoading());
+
+    try {
+      String message = await _residenceDetailRepository.reserveDaysRepository(
+          event.daysId, event.numPeople);
+
+      emit(ReserveDaysCompleted(message: message));
+    } on DioException catch (e) {
+      emit(ReserveDaysError(error: ErrorExceptions().fromError(e).toString()));
     }
   }
 }

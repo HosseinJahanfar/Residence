@@ -10,7 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:residence/features/residence_features/logic/residence_bloc.dart';
-import 'package:residence/features/residence_features/services/residence_api_services.dart';
 import 'package:residence/features/residence_features/services/residence_repository.dart';
 import 'package:residence/features/residence_features/widget/RulesAndRegulationsWidget.dart';
 import 'package:residence/features/residence_features/widget/additional_person_widget.dart';
@@ -22,7 +21,6 @@ import 'package:residence/features/residence_features/widget/residence_date_pick
 import 'package:residence/route/names.dart';
 import '../../../const/shape/border_radius.dart';
 import '../../../const/shape/media_query.dart';
-import '../../../const/string.dart';
 import '../../../const/theme/colors.dart';
 import '../../public_features/widget/error_screen_widget.dart';
 import '../logic/cubit/residence_cubit.dart';

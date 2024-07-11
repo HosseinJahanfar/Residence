@@ -24,6 +24,16 @@ class _ResidenceDatePickerState extends State<ResidenceDatePicker> {
   final Jalali jalali = Jalali.now();
 
   @override
+  void initState() {
+    super.initState();
+    // Reset selected dates
+    KeySendDataHost.sendDates.clear();
+    KeySendDataHost.defaultPrice.clear();
+    KeySendDataHost.idDate.clear();
+    KeySendDataHost.percentPrice.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +65,7 @@ class _ResidenceDatePickerState extends State<ResidenceDatePicker> {
             bool reservedStatus = widget.helperDetail.days![index].reservedStatus!;
 
             return InkWell(
-              onTap:reservedStatus ? null : () {
+              onTap: reservedStatus ? null : () {
                 setState(() {
                   if (isSelected) {
                     KeySendDataHost.sendDates.remove(helper.date!);
@@ -72,7 +82,7 @@ class _ResidenceDatePickerState extends State<ResidenceDatePicker> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color:reservedStatus
+                  color: reservedStatus
                       ? Colors.grey
                       : isSelected
                       ? primaryColor
@@ -124,25 +134,25 @@ class _ResidenceDatePickerState extends State<ResidenceDatePicker> {
                     widget.helperDetail.days![index].discountPercentage == 0
                         ? const SizedBox.shrink()
                         : Expanded(
-                            flex: 2,
-                            child: Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.symmetric(horizontal: 1.5.sp),
-                              decoration: BoxDecoration(
-                                borderRadius: getBorderRadiusFunc(5),
-                                color: Colors.red,
-                              ),
-                              child: Text(
-                                '${widget.helperDetail.days![index].discountPercentage}%',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12.sp,
-                                  fontFamily: 'bold',
-                                ),
-                              ),
-                            ),
+                      flex: 2,
+                      child: Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.symmetric(horizontal: 1.5.sp),
+                        decoration: BoxDecoration(
+                          borderRadius: getBorderRadiusFunc(5),
+                          color: Colors.red,
+                        ),
+                        child: Text(
+                          '${widget.helperDetail.days![index].discountPercentage}%',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12.sp,
+                            fontFamily: 'bold',
                           ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

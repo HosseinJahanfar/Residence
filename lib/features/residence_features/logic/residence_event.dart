@@ -8,3 +8,11 @@ final class CallResidenceEvent extends ResidenceEvent {
 
   CallResidenceEvent({required this.id});
 }
+
+
+final class CallReserveDaysEvent extends ResidenceEvent {
+  final List<String> daysId;
+  final String numPeople;
+
+  CallReserveDaysEvent({required this.daysId, required this.numPeople});
+}

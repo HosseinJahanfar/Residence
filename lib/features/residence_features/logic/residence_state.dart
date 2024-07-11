@@ -18,3 +18,18 @@ final class ResidenceErrorSate extends ResidenceState {
 
   ResidenceErrorSate({required this.error});
 }
+
+
+final class ReserveDaysLoading extends ResidenceState {}
+
+final class ReserveDaysCompleted extends ResidenceState {
+  final String message;
+
+  ReserveDaysCompleted({required this.message});
+}
+
+final class ReserveDaysError extends ResidenceState {
+  final String error;
+
+  ReserveDaysError({required this.error});
+}

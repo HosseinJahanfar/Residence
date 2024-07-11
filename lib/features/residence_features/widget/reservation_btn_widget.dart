@@ -11,7 +11,6 @@ import '../../../const/shape/media_query.dart';
 import '../../../const/string.dart';
 import '../../../const/theme/colors.dart';
 import '../../public_features/functions/number_to_three.dart';
-import '../logic/reserve_days/reserve_days_bloc.dart';
 import '../logic/residence_bloc.dart';
 
 class ReservationBtnWidget extends StatefulWidget {
@@ -436,10 +435,10 @@ class _ReservationBtnWidgetState extends State<ReservationBtnWidget> {
                                         Expanded(
                                           flex: 4,
                                           child: BlocProvider(
-                                            create: (context) => ReserveDaysBloc(
+                                            create: (context) => ResidenceBloc(
                                                 ResidenceDetailRepository()),
-                                            child: BlocConsumer<ReserveDaysBloc,
-                                                ReserveDaysState>(
+                                            child: BlocConsumer<ResidenceBloc,
+                                                ResidenceState>(
                                               listener: (context, state) {
                                                 if (state is ReserveDaysError) {
                                                   getSnackBarWidget(
@@ -478,15 +477,13 @@ class _ReservationBtnWidgetState extends State<ReservationBtnWidget> {
                                                     ),
                                                     onPressed: () {
                                                       context
-                                                          .read<
-                                                              ReserveDaysBloc>()
+                                                          .read<ResidenceBloc>()
                                                           .add(CallReserveDaysEvent(
                                                               daysId:
                                                                   KeySendDataHost
                                                                       .idDate,
                                                               numPeople: counter
                                                                   .toString()));
-
                                                     },
                                                     child: const Text(
                                                       "ادامه رزرو",
