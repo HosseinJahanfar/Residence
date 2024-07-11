@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
             onUnknownRoute: (settings) => MaterialPageRoute(
               builder: (context) => const UnKnowRoutScreen(),
             ),
-            initialRoute: ScreenNames.splashScreen ,
+            initialRoute: ScreenNames.splashScreen,
             routes: routes,
             //  home: HostPersianDatePicker(),
           ),

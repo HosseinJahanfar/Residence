@@ -22,6 +22,7 @@ import 'package:residence/features/residence_features/widget/residence_date_pick
 import 'package:residence/route/names.dart';
 import '../../../const/shape/border_radius.dart';
 import '../../../const/shape/media_query.dart';
+import '../../../const/string.dart';
 import '../../../const/theme/colors.dart';
 import '../../public_features/widget/error_screen_widget.dart';
 import '../logic/cubit/residence_cubit.dart';

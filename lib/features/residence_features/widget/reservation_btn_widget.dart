@@ -1,29 +1,29 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_font_icons/flutter_font_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:residence/features/host_features/calender_features/model/all_date_model.dart';
-import 'package:residence/features/public_features/widget/error_screen_widget.dart';
 import 'package:residence/features/public_features/widget/snack_bar.dart';
-import 'package:residence/features/residence_features/model/calculate_price_model.dart';
 import 'package:residence/features/residence_features/model/residence_detail_model.dart';
 import 'package:residence/features/residence_features/services/residence_repository.dart';
-import 'package:residence/features/residence_features/widget/calculate_price_widget.dart';
 import 'package:residence/features/residence_features/widget/outline_btn_widget.dart';
 import '../../../const/shape/border_radius.dart';
 import '../../../const/shape/media_query.dart';
 import '../../../const/string.dart';
 import '../../../const/theme/colors.dart';
 import '../../public_features/functions/number_to_three.dart';
-import '../logic/rezerve_residence/residence_reservation_bloc.dart';
+import '../logic/reserve_days/reserve_days_bloc.dart';
+import '../logic/residence_bloc.dart';
 
-class ReservationBtnWidget extends StatelessWidget {
-  const ReservationBtnWidget({super.key, required this.helperDetail});
+class ReservationBtnWidget extends StatefulWidget {
+  ReservationBtnWidget({super.key, required this.helperDetail});
 
   final ResidenceDetailModel helperDetail;
 
+  @override
+  State<ReservationBtnWidget> createState() => _ReservationBtnWidgetState();
+}
+
+class _ReservationBtnWidgetState extends State<ReservationBtnWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,10 +42,11 @@ class ReservationBtnWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  helperDetail.discountPercentage == 0
+                  widget.helperDetail.discountPercentage == 0
                       ? const SizedBox.shrink()
                       : Text(
-                          getPriceFormat(helperDetail.percentPrice.toString()),
+                          getPriceFormat(
+                              widget.helperDetail.percentPrice.toString()),
                           style: TextStyle(
                               decoration: TextDecoration.lineThrough,
                               color: Colors.grey,
@@ -55,7 +56,7 @@ class ReservationBtnWidget extends StatelessWidget {
                     width: 5.sp,
                   ),
                   //!box-percentage
-                  helperDetail.discountPercentage == 0
+                  widget.helperDetail.discountPercentage == 0
                       ? const SizedBox.shrink()
                       : Container(
                           padding: EdgeInsets.symmetric(
@@ -65,7 +66,7 @@ class ReservationBtnWidget extends StatelessWidget {
                               color: Colors.red,
                               borderRadius: getBorderRadiusFunc(50.sp)),
                           child: Text(
-                            '${helperDetail.discountPercentage.toString()}%',
+                            '${widget.helperDetail.discountPercentage.toString()}%',
                             style: TextStyle(
                                 fontFamily: 'bold',
                                 color: Colors.white,
@@ -78,7 +79,7 @@ class ReservationBtnWidget extends StatelessWidget {
                   text: TextSpan(children: [
                 TextSpan(
                     text:
-                        'شروع قیمت ${getPriceFormat(helperDetail.defaultPrice.toString())} تومان',
+                        'شروع قیمت ${getPriceFormat(widget.helperDetail.defaultPrice.toString())} تومان',
                     style: const TextStyle(
                       color: Colors.black,
                       fontFamily: 'medium',
@@ -101,83 +102,415 @@ class ReservationBtnWidget extends StatelessWidget {
                       'لطفا برای رزرو اقامتگاه یک روز رو انتخاب کنید.',
                       Colors.red);
                 } else {
+                  int totalPrice = 0;
+                  int percentPrice = 0;
+                  int sufferDiscount = 0;
+                  int counter = 1;
+                  int countPerson = 0;
+
+                  // print(KeySendDataHost.sendDates.toString());
+                  // print(KeySendDataHost.defaultPrice.toString());
+                  for (var element in KeySendDataHost.defaultPrice) {
+                    totalPrice += element;
+                  }
+                  for (var element in KeySendDataHost.percentPrice) {
+                    percentPrice += element;
+                  }
+                  //!discount percent
+                  sufferDiscount = (totalPrice - percentPrice);
+
                   showModalBottomSheet(
+                    isDismissible: false,
                     context: context,
                     builder: (context) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                        child: Container(
-                          width: getAllWidth(context),
-                          height: getWidth(context, 1),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20.sp),
-                                topLeft: Radius.circular(20.sp)),
-                          ),
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                              child: SingleChildScrollView(
-                                child: BlocProvider(
-                                  create: (context) => ResidenceReservationBloc(
-                                      ResidenceDetailRepository())
-                                    ..add(CallResidenceReservationEvent(
-                                        dayIds: KeySendDataHost.sendDates.length
-                                            .toString(),
-                                        numPeople: '1')),
-                                  child: BlocBuilder<ResidenceReservationBloc,
-                                      ResidenceReservationState>(
-                                    builder: (context, state) {
-                                      if (state
-                                          is ResidenceReservationLoading) {
-                                        return const Center(
-                                          child: SpinKitFadingCube(
-                                            color: primaryColor,
-                                            size: 40.0,
+                      return StatefulBuilder(builder:
+                          (BuildContext context, StateSetter setState) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          child: Container(
+                              width: getAllWidth(context),
+                              height: getWidth(context, 1),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20.sp),
+                                    topLeft: Radius.circular(20.sp)),
+                              ),
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: 10.sp),
+                                child: SingleChildScrollView(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    //!circle container
+                                    Center(
+                                      child: Container(
+                                        width: 100.sp,
+                                        height: 5,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey.shade300,
+                                            borderRadius:
+                                                getBorderRadiusFunc(1000)),
+                                      ),
+                                    ),
+
+                                    Row(
+                                      children: [
+                                        const Icon(AntDesign.calendar),
+                                        SizedBox(
+                                          width: 2.5.sp,
+                                        ),
+                                        SizedBox(
+                                          height: 2.5.sp,
+                                        ),
+                                        Text(
+                                            ' رزو ${KeySendDataHost.sendDates.length} روز')
+                                      ],
+                                    ),
+
+                                    SizedBox(
+                                      height: 15.sp,
+                                    ),
+                                    //! Section 1
+                                    SizedBox(
+                                      width: getAllWidth(context),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 4,
+                                            child: Row(
+                                              children: [
+                                                const Icon(Fontisto.persons),
+                                                SizedBox(
+                                                  width: 10.sp,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      'تعداد مسافران',
+                                                      style: TextStyle(
+                                                          fontFamily: 'medium',
+                                                          color: Colors
+                                                              .grey.shade500),
+                                                    ),
+                                                    Text(
+                                                      '${counter.toString()} نفر',
+                                                      style: const TextStyle(
+                                                        fontFamily: 'medium',
+                                                      ),
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        );
-                                      }
+                                          Expanded(
+                                            flex: 2,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                counter ==
+                                                        widget.helperDetail
+                                                            .maximumCapacity
+                                                    ? OutlineBtnWidget(
+                                                        iconData:
+                                                            AntDesign.plus,
+                                                        func: null,
+                                                        colors: Colors
+                                                            .grey.shade300,
+                                                      )
+                                                    : OutlineBtnWidget(
+                                                        iconData:
+                                                            AntDesign.plus,
+                                                        func: () {
+                                                          setState(() {
+                                                            counter += 1;
+                                                          });
+                                                          if (counter >
+                                                              widget
+                                                                  .helperDetail
+                                                                  .minimumCapacity!) {
+                                                            countPerson = (counter -
+                                                                widget
+                                                                    .helperDetail
+                                                                    .minimumCapacity!);
+                                                          }
+                                                        },
+                                                        colors: Colors.black,
+                                                      ),
+                                                Text(
+                                                  counter.toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                  ),
+                                                  textDirection:
+                                                      TextDirection.ltr,
+                                                ),
+                                                counter == 1
+                                                    ? OutlineBtnWidget(
+                                                        iconData: Entypo.minus,
+                                                        func: null,
+                                                        colors: Colors
+                                                            .grey.shade300,
+                                                      )
+                                                    : OutlineBtnWidget(
+                                                        iconData: Entypo.minus,
+                                                        func: () {
+                                                          setState(() {
+                                                            counter -= 1;
+                                                          });
 
-                                      if (state
-                                          is ResidenceReservationCompleted) {
-                                        CalculatePriceModel helper =
-                                            state.calculatePriceModel;
-                                        return CalculatePriceWidget(
-                                            helper: helper);
-                                      }
+                                                          if (counter >=
+                                                              widget
+                                                                  .helperDetail
+                                                                  .minimumCapacity!) {
+                                                            countPerson--;
+                                                          }
+                                                        },
+                                                        colors: Colors.black,
+                                                      )
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10.sp,
+                                    ),
+                                    Divider(
+                                      height: 1,
+                                      color: Colors.grey.shade300,
+                                    ),
+                                    SizedBox(
+                                      height: 10.sp,
+                                    ),
+                                    //!Section 2
+                                    Text(
+                                      'خلاصه پرداخت',
+                                      style: TextStyle(
+                                          fontFamily: 'bold', fontSize: 14.sp),
+                                    ),
+                                    SizedBox(
+                                      height: 10.sp,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${KeySendDataHost.sendDates.length.toString()} شب اقامتگاه',
+                                          style: TextStyle(
+                                              fontFamily: 'normal',
+                                              fontSize: 12.sp),
+                                        ),
+                                        Text(
+                                          '${getPriceFormat(totalPrice.toString())} تومان',
+                                          style: TextStyle(
+                                              fontFamily: 'normal',
+                                              fontSize: 12.sp),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10.sp,
+                                    ),
 
-                                      if (state is ResidenceReservationError) {
-                                        return ErrorScreenWidget(
-                                            errorMsg: state.error.toString(),
-                                            function: () {
-                                              context
-                                                  .read<
-                                                      ResidenceReservationBloc>()
-                                                  .add(
-                                                      CallResidenceReservationEvent(
-                                                          dayIds:
-                                                              KeySendDataHost
-                                                                  .sendDates
-                                                                  .length
-                                                                  .toString(),
-                                                          numPeople: '1'));
-                                            });
-                                      }
-                                      return const SizedBox.shrink();
-                                    },
-                                  ),
-                                ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${countPerson.toString()} نفر اضافه',
+                                          style: TextStyle(
+                                              fontFamily: 'normal',
+                                              fontSize: 12.sp),
+                                        ),
+                                        Text(
+                                          '${getPriceFormat((countPerson * widget.helperDetail.additionalPersonPrice!).toString())} تومان',
+                                          style: TextStyle(
+                                              fontFamily: 'normal',
+                                              fontSize: 12.sp),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10.sp,
+                                    ),
+
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'میزان تخفیف',
+                                          style: TextStyle(
+                                              fontFamily: 'normal',
+                                              fontSize: 12.sp),
+                                        ),
+                                        Text(
+                                          '${getPriceFormat(sufferDiscount.toString())} تومان',
+                                          style: TextStyle(
+                                              fontFamily: 'normal',
+                                              fontSize: 12.sp),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10.sp,
+                                    ),
+                                    Divider(
+                                      height: 1,
+                                      color: Colors.grey.shade300,
+                                    ),
+                                    SizedBox(
+                                      height: 10.sp,
+                                    ),
+
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'جمع مبلغ قابل پرداخت',
+                                          style: TextStyle(
+                                              fontFamily: 'normal',
+                                              fontSize: 12.sp),
+                                        ),
+                                        Text(
+                                          '${getPriceFormat(((totalPrice + (countPerson * widget.helperDetail.additionalPersonPrice!)) - sufferDiscount).toString())} تومان',
+                                          style: TextStyle(
+                                              fontFamily: 'normal',
+                                              fontSize: 12.sp),
+                                        ),
+                                      ],
+                                    ),
+
+                                    SizedBox(
+                                      height: 20.sp,
+                                    ),
+                                    Divider(
+                                      height: 1,
+                                      color: Colors.grey.shade300,
+                                    ),
+                                    SizedBox(
+                                      height: 10.sp,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          getBorderRadiusFunc(
+                                                              5)),
+                                                  backgroundColor:
+                                                      Colors.grey.shade300),
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text(
+                                                "بستن",
+                                                style: TextStyle(
+                                                    fontFamily: 'medium',
+                                                    color: Colors.black),
+                                              )),
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Expanded(
+                                          flex: 4,
+                                          child: BlocProvider(
+                                            create: (context) => ReserveDaysBloc(
+                                                ResidenceDetailRepository()),
+                                            child: BlocConsumer<ReserveDaysBloc,
+                                                ReserveDaysState>(
+                                              listener: (context, state) {
+                                                if (state is ReserveDaysError) {
+                                                  getSnackBarWidget(
+                                                      context,
+                                                      state.error.toString(),
+                                                      Colors.red);
+                                                }
+
+                                                if (state
+                                                    is ReserveDaysCompleted) {
+                                                  Navigator.pop(context);
+                                                  getSnackBarWidget(
+                                                      context,
+                                                      state.message.toString(),
+                                                      Colors.green);
+                                                }
+                                              },
+                                              builder: (context, state) {
+                                                if (state
+                                                    is ReserveDaysLoading) {
+                                                  return const Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  );
+                                                }
+
+                                                return ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          primary2Color,
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              getBorderRadiusFunc(
+                                                                  5)),
+                                                    ),
+                                                    onPressed: () {
+                                                      context
+                                                          .read<
+                                                              ReserveDaysBloc>()
+                                                          .add(CallReserveDaysEvent(
+                                                              daysId:
+                                                                  KeySendDataHost
+                                                                      .idDate,
+                                                              numPeople: counter
+                                                                  .toString()));
+
+                                                    },
+                                                    child: const Text(
+                                                      "ادامه رزرو",
+                                                      style: TextStyle(
+                                                          fontFamily: 'medium',
+                                                          color: Colors.white),
+                                                    ));
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                )),
                               )),
-                        ),
-                      );
+                        );
+                      });
                     },
                   );
                 }
               },
               child: const Text(
-                'رزو اقامتگاه',
+                'رزرو اقامتگاه',
                 style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'bold',

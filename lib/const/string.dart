@@ -20,8 +20,11 @@ class KeySendDataHost {
   static List<String> imageList = [];
   static int idHostSubmitResidence=0;
 
-  //!send date List
+  //!calculate data List
   static List<String> sendDates=[];
+  static List<int> defaultPrice=[];
+  static List<int> percentPrice=[];
+  static List<String> idDate=[];
 
 
 }

@@ -1,11 +1,8 @@
 import 'package:intl/intl.dart';
 
-// تعریف الگوی فرمت قیمت
 final formatPattern = NumberFormat('###,###,###');
 
-// متد برای فرمت کردن قیمت
 String getPriceFormat(dynamic price) {
-  // بررسی نوع داده و تبدیل به عدد صحیح
   int parsedPrice;
   if (price is String) {
     // تبدیل رشته به عدد

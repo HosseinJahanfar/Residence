@@ -50,22 +50,33 @@ class _ResidenceDatePickerState extends State<ResidenceDatePicker> {
             childAspectRatio: 3,
           ),
           itemBuilder: (context, index) {
-            final String date = widget.helperDetail.days![index].date!;
-            bool isSelected = KeySendDataHost.sendDates.contains(date);
+            var helper = widget.helperDetail.days![index];
+            bool isSelected = KeySendDataHost.sendDates.contains(helper.date);
+            bool reservedStatus = widget.helperDetail.days![index].reservedStatus!;
 
             return InkWell(
-              onTap: () {
+              onTap:reservedStatus ? null : () {
                 setState(() {
                   if (isSelected) {
-                    KeySendDataHost.sendDates.remove(date);
+                    KeySendDataHost.sendDates.remove(helper.date!);
+                    KeySendDataHost.defaultPrice.remove(helper.defaultPrice!);
+                    KeySendDataHost.idDate.remove(helper.id.toString());
+                    KeySendDataHost.percentPrice.remove(helper.percentPrice!);
                   } else {
-                    KeySendDataHost.sendDates.add(date);
+                    KeySendDataHost.sendDates.add(helper.date!);
+                    KeySendDataHost.defaultPrice.add(helper.defaultPrice!);
+                    KeySendDataHost.idDate.add(helper.id!.toString());
+                    KeySendDataHost.percentPrice.add(helper.percentPrice!);
                   }
                 });
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: isSelected ? primaryColor : Colors.white,
+                  color:reservedStatus
+                      ? Colors.grey
+                      : isSelected
+                      ? primaryColor
+                      : Colors.white,
                   border: Border.all(
                       color: isSelected ? primaryColor : Colors.grey.shade300),
                   borderRadius: BorderRadius.circular(5),
@@ -87,7 +98,7 @@ class _ResidenceDatePickerState extends State<ResidenceDatePicker> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              date,
+                              helper.date!,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Colors.black,

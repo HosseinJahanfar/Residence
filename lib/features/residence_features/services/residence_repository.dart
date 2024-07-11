@@ -16,23 +16,14 @@ class ResidenceDetailRepository {
     return residenceDetailModel;
   }
 
-  /// Calculate price
-  Future<dynamic> calculatePrice(String dayIds, String numPeople) async {
-    try {
-      final Response response =
-      await _productApiServices.calculatePrice(dayIds, numPeople);
+// متدی برای ارسال داده‌های روزهای رزرو و تعداد افراد با متد POST به سرور
 
-      if (response.statusCode == 200) {
-        CalculatePriceModel calculatePriceModel =
-        CalculatePriceModel.fromJson(response.data);
-        return calculatePriceModel;
-      } else if (response.statusCode == 422) {
-        return 'تعداد افراد بیشتر از حداکثر ظرفیت است';
-      } else {
-        return 'خطای سرور: ${response.statusCode}';
-      }
-    } catch (e) {
-      return 'یک خطای ناشناخته رخ داد: $e';
-    }
+  Future<String> reserveDaysRepository(
+      List<String> dayIds, String numPeople) async {
+    final Response response =
+        await _productApiServices.reserveDays(dayIds, numPeople);
+
+    String msgResponse = response.data['message'];
+    return msgResponse;
   }
 }

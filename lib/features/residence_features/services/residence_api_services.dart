@@ -28,35 +28,36 @@ class ResidenceApiServices {
       rethrow; // Throwing error for handling in case of unsuccessful request
     }
   }
-  /// Calculate price
-  Future<Response> calculatePrice(String dayIds, String numPeople) async {
+// متدی برای ارسال داده‌های روزهای رزرو و تعداد افراد با متد POST به سرور
+  Future<Response> reserveDays(List<String> dayIds, String numPeople) async {
+    _dio.options.connectTimeout = const Duration(seconds: 30);
+    _dio.options.receiveTimeout = const Duration(seconds: 30);
+    _dio.options.sendTimeout = const Duration(seconds: 30);
+
+    final token = await SecureStorageClass().getUserToken();
+    // Define headers
+    var headers = {
+      'Authorization': 'Token $token',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
+    // Define data
+    var data = {'day_ids': dayIds, 'num_people': numPeople};
+
     try {
-      _dio.options.connectTimeout = const Duration(seconds: 30);
-      _dio.options.receiveTimeout = const Duration(seconds: 30);
-      _dio.options.sendTimeout = const Duration(seconds: 30);
-
-      final token = await SecureStorageClass().getUserToken();
-
-      var headers = {
-        'Authorization': 'Token $token',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      };
-
-      var data = 'day_ids=$dayIds&num_people=$numPeople';
-
+      // Make the POST request
       final Response response = await _dio.request(
-        'http://api.netopen.ir/reservation/price-calculation/calculate/',
+        '$baseUrl/reservation/reserve_days/',
         options: Options(
           method: 'POST',
           headers: headers,
         ),
         data: data,
       );
-
+      log(response.data.toString());
       return response;
-    } catch (e) {
-      print('Error calling calculate price API: $e');
-      throw e;
+    } catch (error) {
+      log('Error in reserveDays: $error');
+      rethrow; // Throwing error for handling in case of unsuccessful request
     }
   }
 }
