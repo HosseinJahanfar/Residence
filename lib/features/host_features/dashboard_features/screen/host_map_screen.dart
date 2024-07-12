@@ -14,10 +14,6 @@ class HostMapScreen extends StatelessWidget {
     //!id
     final Map<String, dynamic> arguments =
     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-
-    print(arguments['lat'].toString());
-    print(arguments['long'].toString());
-
     return Scaffold(
         appBar: const AppBarHost(title: 'موقعیت مکانی اقامتگاه'),
         body: FlutterHostMapWidget(

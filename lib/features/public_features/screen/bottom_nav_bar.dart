@@ -19,7 +19,6 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return BlocBuilder<BottomNavCubit, int>(
       builder: (context, state) {
         var helper = BlocProvider.of<BottomNavCubit>(context);
@@ -27,10 +26,11 @@ class BottomNavBar extends StatelessWidget {
           child: Scaffold(
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
+              backgroundColor: bgWhite,
               selectedItemColor: primary2Color,
+              unselectedItemColor: Colors.grey.shade500,
               showSelectedLabels: true,
               showUnselectedLabels: true,
-              unselectedItemColor: theme.iconTheme.color,
               selectedLabelStyle: const TextStyle(fontFamily: 'bold'),
               unselectedLabelStyle: const TextStyle(fontFamily: 'bold'),
               items: const [
@@ -52,9 +52,9 @@ class BottomNavBar extends StatelessWidget {
                   activeIcon: Icon(Icons.luggage),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline),
+                  icon: Icon(Icons.manage_accounts_outlined),
                   label: 'اطلاعات من',
-                  activeIcon: Icon(Icons.person),
+                  activeIcon: Icon(Icons.manage_accounts),
                 ),
               ],
               currentIndex: helper.screenIndex,

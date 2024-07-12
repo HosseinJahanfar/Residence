@@ -11,6 +11,7 @@ import 'package:residence/features/host_features/upload_features/logic/upload_im
 import 'package:residence/features/public_features/widget/snack_bar.dart';
 import '../../../../const/string.dart';
 import '../../../../const/theme/colors.dart';
+import '../../../../route/names.dart';
 import '../../dashboard_features/logic/residence_registration_bloc/residence_registration_bloc.dart';
 import '../../dashboard_features/widget/app_bar_host.dart';
 
@@ -163,6 +164,10 @@ class UploadImageScreen extends StatelessWidget {
                     listener: (context, state) {
                       if (state is ResidenceRegistrationCompletedState) {
                         getSnackBarWidget(context, state.success, Colors.green);
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          ScreenNames.bottomNavBarHostScreen,
+                          (route) => false,
+                        );
                       }
                       if (state is ResidenceRegistrationErrorState) {
                         getSnackBarWidget(
@@ -228,7 +233,7 @@ class UploadImageScreen extends StatelessWidget {
                                     additionalPersonPrice:
                                         KeySendDataHost.residencePrice,
                                     imageList: KeySendDataHost.imageList));
-                           // print(KeySendDataHost.imageList);
+                            // print(KeySendDataHost.imageList);
                             // print(KeySendDataHost.lat);
                             // print( KeySendDataHost.long);
                           }

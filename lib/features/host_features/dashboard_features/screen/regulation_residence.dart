@@ -36,6 +36,33 @@ class _RegulationResidenceState extends State<RegulationResidence> {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            timePickerTheme: TimePickerThemeData(
+              dialHandColor: Colors.black,
+              hourMinuteTextColor: Colors.black,
+              dayPeriodTextColor: WidgetStateColor.resolveWith((states) =>
+                  states.contains(WidgetState.selected)
+                      ? Colors.black
+                      : Colors.black),
+              dayPeriodColor: WidgetStateColor.resolveWith((states) =>
+                  states.contains(WidgetState.selected)
+                      ? Colors.black
+                      : Colors.black),
+              helpTextStyle: const TextStyle(color: Colors.black),
+              entryModeIconColor: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                  overlayColor: Colors.black,
+                  foregroundColor: Colors.black,
+                  textStyle: const TextStyle(color: Colors.black)),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (picked != null &&
         picked != (isEntryTime ? _selectedEntryTime : _selectedExitTime)) {
@@ -75,15 +102,12 @@ class _RegulationResidenceState extends State<RegulationResidence> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 10.sp,
-                ),
                 Text(
                   'ساعت ورود',
                   style: TextStyle(fontFamily: 'medium', fontSize: 14.sp),
                 ),
                 SizedBox(
-                  height: 5.sp,
+                  height: 10.sp,
                 ),
                 GestureDetector(
                   onTap: () => _selectTime(context, true),
@@ -106,7 +130,7 @@ class _RegulationResidenceState extends State<RegulationResidence> {
                   style: TextStyle(fontFamily: 'medium', fontSize: 14.sp),
                 ),
                 SizedBox(
-                  height: 5.sp,
+                  height: 10.sp,
                 ),
                 GestureDetector(
                   onTap: () => _selectTime(context, false),
@@ -197,9 +221,9 @@ class _RegulationResidenceState extends State<RegulationResidence> {
                         // print("Check-Out Time: $checkOutTime");
                         // print("Selected Regulation IDs: $selectedRegulations");
                         KeySendDataHost.regulations.clear();
-                        KeySendDataHost.checkInTime=checkInTime;
-                        KeySendDataHost.checkOutTime=checkOutTime;
-                        KeySendDataHost.regulations=selectedRegulations;
+                        KeySendDataHost.checkInTime = checkInTime;
+                        KeySendDataHost.checkOutTime = checkOutTime;
+                        KeySendDataHost.regulations = selectedRegulations;
                         Navigator.pushNamed(
                           context,
                           ScreenNames.addressResidenceScreen,

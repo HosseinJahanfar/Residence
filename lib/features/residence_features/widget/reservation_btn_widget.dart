@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_font_icons/flutter_font_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:residence/features/public_features/widget/snack_bar.dart';
 import 'package:residence/features/residence_features/model/residence_detail_model.dart';
 import 'package:residence/features/residence_features/services/residence_repository.dart';
@@ -14,7 +15,7 @@ import '../../public_features/functions/number_to_three.dart';
 import '../logic/residence_bloc.dart';
 
 class ReservationBtnWidget extends StatefulWidget {
-  ReservationBtnWidget({super.key, required this.helperDetail});
+  const ReservationBtnWidget({super.key, required this.helperDetail});
 
   final ResidenceDetailModel helperDetail;
 
@@ -107,8 +108,6 @@ class _ReservationBtnWidgetState extends State<ReservationBtnWidget> {
                   int counter = 1;
                   int countPerson = 0;
 
-                  // print(KeySendDataHost.sendDates.toString());
-                  // print(KeySendDataHost.defaultPrice.toString());
                   for (var element in KeySendDataHost.defaultPrice) {
                     totalPrice += element;
                   }
@@ -434,65 +433,62 @@ class _ReservationBtnWidgetState extends State<ReservationBtnWidget> {
                                         ),
                                         Expanded(
                                           flex: 4,
-                                          child: BlocProvider(
-                                            create: (context) => ResidenceBloc(
-                                                ResidenceDetailRepository()),
-                                            child: BlocConsumer<ResidenceBloc,
-                                                ResidenceState>(
-                                              listener: (context, state) {
-                                                if (state is ReserveDaysError) {
-                                                  getSnackBarWidget(
-                                                      context,
-                                                      state.error.toString(),
-                                                      Colors.red);
-                                                }
+                                          child: BlocConsumer<ResidenceBloc,
+                                              ResidenceState>(
+                                            listener: (context, state) {
+                                              if (state is ReserveDaysError) {
+                                                getSnackBarWidget(
+                                                    context,
+                                                    state.error.toString(),
+                                                    Colors.red);
+                                              }
 
-                                                if (state
-                                                    is ReserveDaysCompleted) {
-                                                  Navigator.pop(context);
-                                                  getSnackBarWidget(
-                                                      context,
-                                                      state.message.toString(),
-                                                      Colors.green);
-                                                }
-                                              },
-                                              builder: (context, state) {
-                                                if (state
-                                                    is ReserveDaysLoading) {
-                                                  return const Center(
-                                                    child:
-                                                        CircularProgressIndicator(),
-                                                  );
-                                                }
-
-                                                return ElevatedButton(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      backgroundColor:
-                                                          primary2Color,
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              getBorderRadiusFunc(
-                                                                  5)),
-                                                    ),
-                                                    onPressed: () {
-                                                      context
-                                                          .read<ResidenceBloc>()
-                                                          .add(CallReserveDaysEvent(
-                                                              daysId:
-                                                                  KeySendDataHost
-                                                                      .idDate,
-                                                              numPeople: counter
-                                                                  .toString()));
-                                                    },
-                                                    child: const Text(
-                                                      "ادامه رزرو",
-                                                      style: TextStyle(
-                                                          fontFamily: 'medium',
-                                                          color: Colors.white),
+                                              if (state
+                                                  is ReserveDaysCompleted) {
+                                                Navigator.pop(context);
+                                                getSnackBarWidget(
+                                                    context,
+                                                    state.message.toString(),
+                                                    Colors.green);
+                                              }
+                                            },
+                                            builder: (context, state) {
+                                              if (state
+                                                  is ReserveDaysLoading) {
+                                                return const Center(
+                                                    child: SpinKitFadingCube(
+                                                      color: primaryColor,
+                                                      size: 30.0,
                                                     ));
-                                              },
-                                            ),
+                                              }
+
+                                              return ElevatedButton(
+                                                  style: ElevatedButton
+                                                      .styleFrom(
+                                                    backgroundColor:
+                                                        primary2Color,
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            getBorderRadiusFunc(
+                                                                5)),
+                                                  ),
+                                                  onPressed: () {
+                                                    context
+                                                        .read<ResidenceBloc>()
+                                                        .add(CallReserveDaysEvent(
+                                                            daysId:
+                                                                KeySendDataHost
+                                                                    .idDate,
+                                                            numPeople: counter
+                                                                .toString()));
+                                                  },
+                                                  child: const Text(
+                                                    "پرداخت",
+                                                    style: TextStyle(
+                                                        fontFamily: 'medium',
+                                                        color: Colors.white),
+                                                  ));
+                                            },
                                           ),
                                         ),
                                       ],

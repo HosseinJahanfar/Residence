@@ -44,7 +44,13 @@ class ResidenceBloc extends Bloc<ResidenceEvent, ResidenceState> {
       String message = await _residenceDetailRepository.reserveDaysRepository(
           event.daysId, event.numPeople);
 
+     for(var day in residenceDetailModel.days!){
+       if(event.daysId.contains(day.id.toString())){
+         day.reservedStatus=true;
+       }
+     }
       emit(ReserveDaysCompleted(message: message));
+      emit(ResidenceCompletedSate(residenceModel: residenceDetailModel));
     } on DioException catch (e) {
       emit(ReserveDaysError(error: ErrorExceptions().fromError(e).toString()));
     }

@@ -12,6 +12,7 @@ import 'package:residence/features/intro_features/screens/splash_screen.dart';
 import 'package:residence/features/profile_features/screens/profile_screen.dart';
 import 'package:residence/features/public_features/functions/preload_svg.dart';
 import 'package:residence/features/public_features/logic/token_check/token_check_cubit.dart';
+import 'package:residence/features/residence_features/logic/residence_bloc.dart';
 import 'package:residence/features/residence_features/screen/residence_detail_screen.dart';
 import 'package:residence/features/residence_features/widget/persian_picker.dart';
 import 'package:residence/features/residence_features/widget/residence_date_picker.dart';
@@ -37,6 +38,7 @@ import 'features/information_features/screens/contact_support.dart';
 import 'features/public_features/logic/bottom_nav_cubit.dart';
 import 'features/public_features/screen/bottom_nav_bar.dart';
 import 'features/public_features/screen/unknownrout_screen.dart';
+import 'features/residence_features/services/residence_repository.dart';
 
 void main() async {
   HttpOverrides.global = MyHttpOverrides();
@@ -81,6 +83,9 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => CommentBloc(CommentRepository()),
             ),
+            BlocProvider(
+              create: (context) => ResidenceBloc(ResidenceDetailRepository()),
+            )
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

@@ -10,58 +10,59 @@ class BottomNavBarHost extends StatelessWidget {
 
   final List<Widget> screenList = [
     const DashboardScreen(),
-    Container(),
     const RegisterResidenceUser(),
+    Container(),
     Container(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return BlocBuilder<BottomNavCubit, int>(
       builder: (context, state) {
         var helper = BlocProvider.of<BottomNavCubit>(context);
-        return SafeArea(
-          child: Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: primary2Color,
-              showSelectedLabels: true,
-              showUnselectedLabels: true,
-              unselectedItemColor: theme.iconTheme.color,
-              selectedLabelStyle: const TextStyle(fontFamily: 'bold'),
-              unselectedLabelStyle: const TextStyle(fontFamily: 'bold'),
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.dashboard_outlined),
-                  label: 'داشبورد',
-                  activeIcon: Icon(Icons.dashboard),
+        return Scaffold(
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: bgWhite,
+            // رنگ پس‌زمینه نوار ناوبری
+            selectedItemColor: primary2Color,
+            // رنگ آیتم‌های انتخاب شده
+            unselectedItemColor: Colors.grey.shade500,
+            // رنگ آیتم‌های انتخاب نشده
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            selectedLabelStyle: const TextStyle(fontFamily: 'bold'),
+            unselectedLabelStyle: const TextStyle(fontFamily: 'bold'),
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.dashboard_outlined),
+                label: 'داشبورد',
+                activeIcon: Icon(Icons.dashboard),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.calendar_month_outlined,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.note_outlined),
-                  label: 'رزرو ها',
-                  activeIcon: Icon(Icons.note),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.calendar_month_outlined,
-                  ),
-                  label: 'تقویم',
-                  activeIcon: Icon(Icons.calendar_month),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.card_travel),
-                  label: 'مالی',
-                  activeIcon: Icon(Icons.card_travel_outlined),
-                ),
-              ],
-              currentIndex: helper.screenIndex,
-              onTap: (value) {
-                helper.onTabScreen(value);
-              },
-            ),
-            body: screenList.elementAt(helper.screenIndex),
+                label: 'تقویم',
+                activeIcon: Icon(Icons.calendar_month),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.card_travel),
+                label: 'مالی',
+                activeIcon: Icon(Icons.card_travel_outlined),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.manage_accounts_outlined),
+                label: 'اطلاعات من',
+                activeIcon: Icon(Icons.manage_accounts),
+              ),
+            ],
+            currentIndex: helper.screenIndex,
+            onTap: (value) {
+              helper.onTabScreen(value);
+            },
           ),
+          body: screenList.elementAt(helper.screenIndex),
         );
       },
     );

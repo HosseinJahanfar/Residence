@@ -18,13 +18,22 @@ class KeySendDataHost {
   static double lat = 0;
   static double long = 0;
   static List<String> imageList = [];
-  static int idHostSubmitResidence=0;
+  static int idHostSubmitResidence = 0;
 
   //!calculate data List
-  static List<String> sendDates=[];
-  static List<int> defaultPrice=[];
-  static List<int> percentPrice=[];
-  static List<String> idDate=[];
+  static List<String> sendDates = [];
+  static List<int> defaultPrice = [];
+  static List<int> percentPrice = [];
+  static List<String> idDate = [];
 
+  static int detailId = 0;
+
+//! Submit Parking
+  static int typeParking = 0;
+  static String description='';
+  static int capacityParking=0;
+  static String checkInTimeParking='';
+  static String checkOutTimeParking='';
+  static bool isCheckedParking=false;
 
 }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:residence/const/string.dart';
 
 import '../../../const/connection.dart';
 import '../../../const/shape/border_radius.dart';
@@ -21,8 +22,8 @@ class ItemResidenceListView extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         //!sendId
-        Navigator.pushNamed(context, ScreenNames.residenceDetailScreen,
-            arguments: {'residence_detail_id': helper.id});
+        KeySendDataHost.detailId=helper.id!;
+        Navigator.pushNamed(context, ScreenNames.residenceDetailScreen);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10.sp),

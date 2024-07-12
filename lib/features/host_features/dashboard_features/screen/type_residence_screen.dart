@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,12 +10,10 @@ import 'package:residence/features/host_features/dashboard_features/model/host_m
 import 'package:residence/features/host_features/dashboard_features/services/dashboard_repository.dart';
 import 'package:residence/features/host_features/dashboard_features/widget/app_bar_host.dart';
 import 'package:residence/route/names.dart';
-
 import '../../../../const/connection.dart';
 import '../../../../const/string.dart';
 import '../../../../const/theme/colors.dart';
 import '../../../public_features/widget/error_screen_widget.dart';
-import '../services/dashboard_api_services.dart';
 
 class TypeResidenceScreen extends StatelessWidget {
   const TypeResidenceScreen({super.key});

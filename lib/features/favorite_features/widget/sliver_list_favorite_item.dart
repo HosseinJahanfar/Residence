@@ -23,7 +23,7 @@ class SliverListFavoriteItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 5.sp, horizontal: 10.sp),
       child: Container(
         width: getAllWidth(context),
-        height: 150,
+        height: 120,
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: getBorderRadiusFunc(5)),
         child: Row(
@@ -72,31 +72,28 @@ class SliverListFavoriteItem extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'bold',
-                            fontSize: 10.sp),
+                            fontSize: 11.sp),
                         maxLines: 1,
                       ),
-
-                      Row(
-                        children: [
-                          helperIndex.discountPercentage == 0
-                              ? const SizedBox.shrink()
-                              : Text(
+                      helperIndex.discountPercentage == 0
+                          ? const SizedBox.shrink()
+                          : Row(
+                              children: [
+                                Text(
                                   getPriceFormat(
                                       helperIndex.percentPrice.toString()),
                                   style: TextStyle(
                                       decoration: TextDecoration.lineThrough,
                                       color: Colors.grey,
-                                      fontSize: 12.sp),
+                                      fontSize: 10.sp),
                                   maxLines: 1,
                                 ),
-                          SizedBox(
-                            width: 5.sp,
-                          ),
-                          helperIndex.discountPercentage == 0
-                              ? const SizedBox.shrink()
-                              : Container(
+                                SizedBox(
+                                  width: 2.5.sp,
+                                ),
+                                Container(
                                   padding: EdgeInsets.symmetric(
-                                      vertical: 0.5.sp, horizontal: 5.sp),
+                                      vertical: 0.30.sp, horizontal: 3.sp),
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                           color: Colors.red, width: 2),
@@ -107,13 +104,12 @@ class SliverListFavoriteItem extends StatelessWidget {
                                     style: TextStyle(
                                         fontFamily: 'bold',
                                         color: Colors.white,
-                                        fontSize: 12.sp),
+                                        fontSize: 10.sp),
                                     maxLines: 1,
                                   ),
                                 ),
-                        ],
-                      ),
-
+                              ],
+                            ),
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
@@ -131,27 +127,34 @@ class SliverListFavoriteItem extends StatelessWidget {
                                 fontFamily: 'bold',
                                 fontSize: 10.sp))
                       ])),
-
                       //!btn delete favorite
-
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: Colors.red),
-                                backgroundColor: Colors.transparent),
-                            onPressed: () {
-                              context
-                                  .read<FavoriteBloc>()
-                                  .add(RemoveFavoriteEvent(helperIndex.id!));
-                            },
-                            child: Text(
-                              'حذف از علاقه مندی ها',
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontFamily: 'bold',
-                                  fontSize: 10.sp),
-                            )),
+                        child: SizedBox(
+                          height: 25.0,
+                          child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                  overlayColor: Colors.red,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: getBorderRadiusFunc(2.5)),
+                                  side: const BorderSide(color: Colors.red),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  // کاهش padding برای کوچک‌تر کردن دکمه
+                                  backgroundColor: Colors.transparent),
+                              onPressed: () {
+                                context
+                                    .read<FavoriteBloc>()
+                                    .add(RemoveFavoriteEvent(helperIndex.id!));
+                              },
+                              child: Text(
+                                'حذف از علاقه مندی ها',
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontFamily: 'bold',
+                                    fontSize: 8.sp),
+                              )),
+                        ),
                       )
                     ],
                   ),

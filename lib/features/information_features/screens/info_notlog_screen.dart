@@ -18,7 +18,21 @@ class InformationLogin extends StatelessWidget {
       width: getAllWidth(context),
       child: SingleChildScrollView(
         child: Column(
+
           children: [
+            Container(
+              width: getAllWidth(context),
+              height: 50,
+              alignment: Alignment.center,
+              color: Colors.transparent,
+              child: Text(
+                'علاقه مندی ها',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'bold',
+                    fontSize: 14.sp),
+              ),
+            ),
             SizedBox(
               width: getAllWidth(context),
               child: Column(

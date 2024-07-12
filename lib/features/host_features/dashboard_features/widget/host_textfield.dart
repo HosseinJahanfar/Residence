@@ -37,6 +37,7 @@ class HostInputTextFieldWidget extends StatelessWidget {
         return null;
       },
       textInputAction: textInputAction,
+
       decoration: InputDecoration(
         floatingLabelBehavior: floatingLabelBehavior,
         fillColor: Colors.transparent,

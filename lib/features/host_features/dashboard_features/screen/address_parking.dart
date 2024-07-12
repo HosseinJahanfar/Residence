@@ -1,49 +1,50 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:residence/const/shape/border_radius.dart';
-import 'package:residence/const/theme/colors.dart';
-import 'package:residence/features/host_features/dashboard_features/logic/city_logic/city_bloc.dart';
-import 'package:residence/features/host_features/dashboard_features/model/host_model.dart';
-import 'package:residence/features/public_features/widget/error_screen_widget.dart';
-import 'package:residence/features/public_features/widget/snack_bar.dart';
-import 'package:residence/route/names.dart';
+
+import '../../../../const/shape/border_radius.dart';
 import '../../../../const/shape/media_query.dart';
 import '../../../../const/string.dart';
+import '../../../../const/theme/colors.dart';
+import '../../../../route/names.dart';
+import '../../../public_features/widget/error_screen_widget.dart';
+import '../../../public_features/widget/snack_bar.dart';
+import '../logic/city_logic/city_bloc.dart';
 import '../model/city_model.dart';
+import '../model/host_model.dart';
 import '../widget/app_bar_host.dart';
+import '../widget/host_textfield.dart';
+import '../widget/host_textfield_multiline.dart';
 
-class AddressResidence extends StatefulWidget {
-  const AddressResidence({super.key});
+class AddressParking extends StatefulWidget {
+  const AddressParking({super.key});
 
   @override
-  State<AddressResidence> createState() => _AddressResidenceState();
+  State<AddressParking> createState() => _AddressParkingState();
 }
 
-class _AddressResidenceState extends State<AddressResidence> {
+class _AddressParkingState extends State<AddressParking> {
   String? dropDownValueProvinces;
   String? dropDownValueCity;
-  final List<int> selectedIds = [];
   String locationCity = '';
   final _formKey = GlobalKey<FormState>(); // GlobalKey for the Form
+  final TextEditingController _addressController = TextEditingController();
   int? selectedProvinceId;
   int? selectedCityId;
 
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> arguments =
-    ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final HostModel hostModel = arguments['data_id'] as HostModel;
-
-    dropDownValueProvinces ??= null; // هیچ استانی انتخاب نشده باشد
-
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final HostModel hostModel = arguments['parking_id'] as HostModel;
     final Map<String, int> provincesMap = {
       for (var province in hostModel.provinces!) province.name!: province.id!
     };
-
+    dropDownValueProvinces ??= null; // هیچ استانی انتخاب نشده باشد
     return Scaffold(
-      appBar: const AppBarHost(title: 'آدرس اقامتگاه'),
+      appBar: const AppBarHost(title: 'آدرس پارکینگ'),
       body: Container(
         width: getAllWidth(context),
         padding: EdgeInsets.symmetric(horizontal: getWidth(context, 0.03)),
@@ -105,8 +106,8 @@ class _AddressResidenceState extends State<AddressResidence> {
                               selectedProvinceId = provincesMap[newValue];
                             });
                             final selectedId = provincesMap[newValue];
-                            print(
-                                'Selected Province Name: $newValue, ID: $selectedId');
+                            // print(
+                            //     'Selected Province Name: $newValue, ID: $selectedId');
                             if (selectedId != null) {
                               context.read<CityBloc>().add(
                                   CallCityEvent(id: selectedId.toString()));
@@ -171,14 +172,16 @@ class _AddressResidenceState extends State<AddressResidence> {
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     dropDownValueCity = newValue;
-                                    selectedCityId = int.tryParse(newValue ?? '');
+                                    selectedCityId =
+                                        int.tryParse(newValue ?? '');
                                   });
                                   final selectedCity = cities.firstWhere(
-                                        (city) => city.id.toString() == newValue,
-                                    orElse: () => CityModel(id: -1, name: "نامشخص"),
+                                    (city) => city.id.toString() == newValue,
+                                    orElse: () =>
+                                        CityModel(id: -1, name: "نامشخص"),
                                   );
                                   locationCity = selectedCity.name;
-                                  print('Selected City Name: ${selectedCity.name}');
+                                  // print('Selected City Name: ${selectedCity.name}');
                                 },
                               ),
                             ),
@@ -194,38 +197,26 @@ class _AddressResidenceState extends State<AddressResidence> {
                         return const SizedBox.shrink();
                       },
                     ),
-                    SizedBox(height: 10.sp),
+                    SizedBox(
+                      height: 10.sp,
+                    ),
                     Text(
-                      'اپشن ها',
+                      'آدرس',
                       style: TextStyle(fontFamily: 'medium', fontSize: 14.sp),
                     ),
-                    ListView.builder(
-                      itemCount: hostModel.options?.length ?? 0,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final option = hostModel.options?[index];
-                        if (option == null) {
-                          return const SizedBox.shrink();
-                        }
-                        return CheckboxListTile(
-                          activeColor: primary2Color,
-                          title: Text(option.name ?? "نامشخص"),
-                          value: selectedIds.contains(option.id),
-                          onChanged: (bool? value) {
-                            setState(() {
-                              if (value == true) {
-                                selectedIds.add(option.id!);
-                              } else {
-                                selectedIds.remove(option.id!);
-                              }
-                             // print("Selected ID: ${option.id}");
-                            });
-                          },
-                        );
-                      },
+                    SizedBox(
+                      height: 10.sp,
                     ),
+                    HostTextFormFieldMultiLine(
+                        minLine: 3,
+                        maxLine: 6,
+                        maxLength: 60,
+                        hintText: 'در این قسمت آدرس پارکینگ خود را کامل بنویسید.',
+                        textInputAction: TextInputAction.done,
+                        textInputType: TextInputType.multiline,
+                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                        controller: _addressController,
+                        icon: const Icon(Icons.edit_outlined)),
                   ],
                 ),
                 Column(
@@ -263,9 +254,9 @@ class _AddressResidenceState extends State<AddressResidence> {
                         if (state is LocationLoadingState) {
                           return const Center(
                               child: SpinKitFadingCube(
-                                color: primaryColor,
-                                size: 35.0,
-                              ));
+                            color: primaryColor,
+                            size: 35.0,
+                          ));
                         }
                         return ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -280,26 +271,27 @@ class _AddressResidenceState extends State<AddressResidence> {
                           ),
                           onPressed: () {
                             if (dropDownValueProvinces == null ||
-                                dropDownValueCity == null ||
-                                selectedIds.isEmpty) {
+                                dropDownValueCity == null) {
                               getSnackBarWidget(
                                 context,
-                                'لطفاً استان، شهر و حداقل یک گزینه را انتخاب کنید',
+                                'لطفاً استان، شهر و آدرس خود را بنویسید',
                                 Colors.red,
                               );
                               return;
                             }
 
                             if (_formKey.currentState!.validate()) {
-                              // print('Selected Province ID: $selectedProvinceId');
-                              // print('Selected City ID: $selectedCityId');
+
                               KeySendDataHost.province=selectedProvinceId!;
                               KeySendDataHost.city=selectedCityId!;
-                              context.read<CityBloc>().add(
-                                CallLocationCityEvent(
-                                  cityName: locationCity,
-                                ),
-                              );
+                              // print(KeySendDataHost.province);
+                              // print(KeySendDataHost.city);
+
+                              // context.read<CityBloc>().add(
+                              //       CallLocationCityEvent(
+                              //         cityName: locationCity,
+                              //       ),
+                              //     );
                             }
                           },
                           child: Text(

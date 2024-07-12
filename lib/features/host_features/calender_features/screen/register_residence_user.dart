@@ -35,17 +35,12 @@ class RegisterResidenceUser extends StatelessWidget {
             return CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-                  child: Container(
-                    width: getAllWidth(context),
-                    height: 50,
-                    alignment: Alignment.center,
-                    color: Colors.white,
-                    child: Text(
+                  child: AppBar(
+                    backgroundColor: Colors.transparent,
+                    centerTitle: true,
+                    title: Text(
                       'تقویم',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'bold',
-                          fontSize: 14.sp),
+                      style: TextStyle(fontSize: 14.sp, fontFamily: 'bold'),
                     ),
                   ),
                 ),

@@ -1,5 +1,3 @@
-import 'package:residence/features/host_features/dashboard_features/screen/address_residence.dart';
-
 class ScreenNames {
   ScreenNames._();
 
@@ -25,4 +23,9 @@ class ScreenNames {
   static const addressResidenceScreen = "/addressResidenceScreen";
   static const uploadImageScreen = "/uploadImageScreen";
   static const hostPersianDatePickerScreen = "/hostPersianDatePickerScreen";
+  static const typeParkingScreen = "/typeParkingScreen";
+  static const parkingDetailScreen = "/parkingDetailScreen";
+  static const addressParkingScreen = "/addressParkingScreen";
+
+
 }

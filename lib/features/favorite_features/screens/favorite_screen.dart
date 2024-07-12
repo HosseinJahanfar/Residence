@@ -36,7 +36,7 @@ class FavoriteScreen extends StatelessWidget {
                     width: getAllWidth(context),
                     height: 50,
                     alignment: Alignment.center,
-                    color: Colors.white,
+                    color: Colors.transparent,
                     child: Text(
                       'علاقه مندی ها',
                       style: TextStyle(

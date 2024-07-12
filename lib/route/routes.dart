@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:residence/features/authentication_features/screens/auth_screen.dart';
 import 'package:residence/features/host_features/dashboard_features/screen/host_map_screen.dart';
 import 'package:residence/features/host_features/dashboard_features/screen/regulation_residence.dart';
+import 'package:residence/features/host_features/dashboard_features/screen/type_parking.dart';
 import 'package:residence/features/information_features/screens/about_screen.dart';
 import 'package:residence/features/intro_features/screens/check_home.dart';
 import 'package:residence/features/profile_features/screens/profile_screen.dart';
@@ -11,7 +12,9 @@ import '../features/home_features/screens/home_screen.dart';
 import '../features/host_features/calender_features/screen/host_persian_date_picker.dart';
 import '../features/host_features/dashboard_features/logic/city_logic/city_bloc.dart';
 import '../features/host_features/dashboard_features/screen/accommodation_detail_screen.dart';
+import '../features/host_features/dashboard_features/screen/address_parking.dart';
 import '../features/host_features/dashboard_features/screen/address_residence.dart';
+import '../features/host_features/dashboard_features/screen/parking_detail.dart';
 import '../features/host_features/dashboard_features/screen/type_residence_screen.dart';
 import '../features/host_features/dashboard_features/services/dashboard_repository.dart';
 import '../features/host_features/navigationbar_features/screen/bottom_nav_bar_host.dart';
@@ -43,11 +46,12 @@ Map<String, Widget Function(BuildContext)> routes = {
   ScreenNames.bottomNavBarHostScreen: (context) => BottomNavBarHost(),
   ScreenNames.typeResidenceScreen: (context) => const TypeResidenceScreen(),
   ScreenNames.accommodationDetailScreen: (context) =>
-      const AccommodationDetailScreen(),
+  const AccommodationDetailScreen(),
   ScreenNames.hostMapScreen: (context) => const HostMapScreen(),
   ScreenNames.regulationResidenceScreen: (context) =>
-      const RegulationResidence(),
-  ScreenNames.addressResidenceScreen: (context) => BlocProvider(
+  const RegulationResidence(),
+  ScreenNames.addressResidenceScreen: (context) =>
+      BlocProvider(
         create: (context) => CityBloc(DashboardRepository()),
         child: const AddressResidence(),
       ),
@@ -57,6 +61,13 @@ Map<String, Widget Function(BuildContext)> routes = {
       child: const UploadImageScreen(),
     );
   },
-  ScreenNames.hostPersianDatePickerScreen: (context) => const HostPersianDatePickerScreen(),
-
+  ScreenNames.hostPersianDatePickerScreen: (context) =>
+  const HostPersianDatePickerScreen(),
+  ScreenNames.typeParkingScreen: (context) => TypeParking(),
+  ScreenNames.parkingDetailScreen: (context) => const ParkingDetail(),
+  ScreenNames.addressParkingScreen: (context) =>
+      BlocProvider(
+        create: (context) => CityBloc(DashboardRepository()),
+        child: const AddressParking(),
+      ),
 };
