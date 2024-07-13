@@ -41,7 +41,15 @@ class _TravelScreenState extends State<Reservation>
         Container(
           width: getAllWidth(context),
           height: 50,
-          color: Colors.white,
+          alignment: Alignment.center,
+          color: Colors.transparent,
+          child: Text(
+            'سفر های من',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: 'bold',
+                fontSize: 14.sp),
+          ),
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: getWidth(context, 0.20)),
@@ -54,6 +62,7 @@ class _TravelScreenState extends State<Reservation>
             labelColor: primary2Color,
             unselectedLabelColor: Colors.grey.shade600,
             padding: EdgeInsets.all(2.5.sp),
+            dividerColor: Colors.transparent,
             overlayColor: const WidgetStatePropertyAll(
               Colors.transparent,
             ),
@@ -79,7 +88,7 @@ class _TravelScreenState extends State<Reservation>
             controller: _tabController,
             isScrollable: false,
             indicator: BoxDecoration(
-              color: Colors.white,
+              color: Colors.white60,
               borderRadius: getBorderRadiusFunc(5),
             ),
           ),

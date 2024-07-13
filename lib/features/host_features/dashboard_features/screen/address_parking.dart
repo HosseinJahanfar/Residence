@@ -211,7 +211,8 @@ class _AddressParkingState extends State<AddressParking> {
                         minLine: 3,
                         maxLine: 6,
                         maxLength: 60,
-                        hintText: 'در این قسمت آدرس پارکینگ خود را کامل بنویسید.',
+                        hintText:
+                            'در این قسمت آدرس پارکینگ خود را کامل بنویسید.',
                         textInputAction: TextInputAction.done,
                         textInputType: TextInputType.multiline,
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -281,17 +282,17 @@ class _AddressParkingState extends State<AddressParking> {
                             }
 
                             if (_formKey.currentState!.validate()) {
+                              KeySendDataHost.provinceParking =
+                                  selectedProvinceId!;
+                              KeySendDataHost.cityParking = selectedCityId!;
+                              KeySendDataHost.addressParking =
+                                  _addressController.text;
 
-                              KeySendDataHost.province=selectedProvinceId!;
-                              KeySendDataHost.city=selectedCityId!;
-                              // print(KeySendDataHost.province);
-                              // print(KeySendDataHost.city);
-
-                              // context.read<CityBloc>().add(
-                              //       CallLocationCityEvent(
-                              //         cityName: locationCity,
-                              //       ),
-                              //     );
+                              context.read<CityBloc>().add(
+                                    CallLocationCityEvent(
+                                      cityName: locationCity,
+                                    ),
+                                  );
                             }
                           },
                           child: Text(

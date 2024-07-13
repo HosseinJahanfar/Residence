@@ -15,7 +15,7 @@ class DashboardApiServices {
     // Adding the token to the request headers
     Options options = Options(
       headers: {
-        'Authorization': 'Token 85a7a681f8f60fce87ed96844a7435bf9e6318ec',
+        'Authorization': 'Token $token',
       },
     );
     try {

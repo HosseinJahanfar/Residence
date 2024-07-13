@@ -30,10 +30,13 @@ class KeySendDataHost {
 
 //! Submit Parking
   static int typeParking = 0;
-  static String description='';
+  static String descriptionParking='';
   static int capacityParking=0;
   static String checkInTimeParking='';
   static String checkOutTimeParking='';
   static bool isCheckedParking=false;
+  static int provinceParking = 0;
+  static int cityParking = 0;
+  static String addressParking='';
 
 }
