@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../const/theme/colors.dart';
 import '../../favorite_features/screens/favorite_screen.dart';
 import '../../home_features/screens/home_screen.dart';
-import '../../information_features/screens/info_notlog_screen.dart';
+import '../../information_features/screens/info_guest_screen.dart';
 import '../../reservation_features/screens/reservation_screen.dart';
 import '../logic/bottom_nav_cubit.dart';
 
@@ -14,7 +14,7 @@ class BottomNavBar extends StatelessWidget {
     const HomeScreen(),
     const FavoriteScreen(),
     const Reservation(),
-    const InformationLogin(),
+    const InformationGuest(),
   ];
 
   @override

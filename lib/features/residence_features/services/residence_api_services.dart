@@ -53,7 +53,6 @@ class ResidenceApiServices {
         ),
         data: data,
       );
-      log(response.data.toString());
       return response;
     } catch (error) {
       log('Error in reserveDays: $error');

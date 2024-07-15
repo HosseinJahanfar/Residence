@@ -34,18 +34,16 @@ class RegisterResidenceUser extends StatelessWidget {
                 state.registerResidenceUser;
             return CustomScrollView(
               slivers: [
-                SliverToBoxAdapter(
-                  child: AppBar(
-                    backgroundColor: Colors.transparent,
-                    centerTitle: true,
-                    title: Text(
-                      'تقویم',
-                      style: TextStyle(fontSize: 14.sp, fontFamily: 'bold'),
-                    ),
+                SliverAppBar(
+                  backgroundColor: Colors.transparent,
+                  centerTitle: true,
+                  title:  Text(
+                    'تقویم',
+                    style: TextStyle(fontSize: 14.sp, fontFamily: 'bold'),
                   ),
-                ),
+                )
+                ,
                 //!create calendar
-
                 SliverPadding(
                   padding: EdgeInsets.symmetric(vertical: 5.sp),
                   sliver: SliverList(

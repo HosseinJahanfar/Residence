@@ -6,7 +6,7 @@ sealed class ReservationEvent {}
 final class CallReservationEvent extends ReservationEvent {}
 
 class CancelReservationEvent extends ReservationEvent {
-  final int id;
+  final String id;
 
   CancelReservationEvent(this.id);
 }

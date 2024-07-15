@@ -34,6 +34,8 @@ import 'features/host_features/calender_features/services/calender_repository.da
 import 'features/host_features/dashboard_features/logic/city_logic/city_bloc.dart';
 import 'features/host_features/dashboard_features/services/dashboard_api_services.dart';
 import 'features/host_features/dashboard_features/services/dashboard_repository.dart';
+import 'features/host_features/financial_features/logic/financial_bloc.dart';
+import 'features/host_features/financial_features/services/financial_repository.dart';
 import 'features/information_features/screens/contact_support.dart';
 import 'features/public_features/logic/bottom_nav_cubit.dart';
 import 'features/public_features/screen/bottom_nav_bar.dart';
@@ -85,6 +87,9 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => ResidenceBloc(ResidenceDetailRepository()),
+            ),
+            BlocProvider(
+              create: (context) => FinancialBloc(FinancialRepository()),
             )
           ],
           child: MaterialApp(

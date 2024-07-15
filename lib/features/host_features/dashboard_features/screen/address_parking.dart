@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,7 +14,6 @@ import '../logic/city_logic/city_bloc.dart';
 import '../model/city_model.dart';
 import '../model/host_model.dart';
 import '../widget/app_bar_host.dart';
-import '../widget/host_textfield.dart';
 import '../widget/host_textfield_multiline.dart';
 
 class AddressParking extends StatefulWidget {

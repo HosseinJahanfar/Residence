@@ -4,6 +4,7 @@ import 'package:residence/features/authentication_features/screens/auth_screen.d
 import 'package:residence/features/host_features/dashboard_features/screen/host_map_screen.dart';
 import 'package:residence/features/host_features/dashboard_features/screen/regulation_residence.dart';
 import 'package:residence/features/host_features/dashboard_features/screen/type_parking.dart';
+import 'package:residence/features/host_features/financial_features/screen/financial_screen.dart';
 import 'package:residence/features/information_features/screens/about_screen.dart';
 import 'package:residence/features/intro_features/screens/check_home.dart';
 import 'package:residence/features/profile_features/screens/profile_screen.dart';
@@ -70,4 +71,6 @@ Map<String, Widget Function(BuildContext)> routes = {
         create: (context) => CityBloc(DashboardRepository()),
         child: const AddressParking(),
       ),
+  ScreenNames.financialScreen: (context) =>  FinancialScreen(),
+
 };

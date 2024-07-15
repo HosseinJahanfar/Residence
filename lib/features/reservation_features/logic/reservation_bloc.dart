@@ -42,7 +42,7 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
       await _reservationRepository.cancelReservation(event.id);
 
       reservationModel.currentReservations!
-          .removeWhere((element) => element.id == event.id);
+          .removeWhere((element) => element.id.toString() == event.id);
 
       emit(ReservationCompleted(reservationModel:reservationModel));
     } on DioException catch (e) {

@@ -17,7 +17,6 @@ class ResidenceDetailRepository {
   }
 
 // متدی برای ارسال داده‌های روزهای رزرو و تعداد افراد با متد POST به سرور
-
   Future<String> reserveDaysRepository(
       List<String> dayIds, String numPeople) async {
     final Response response =

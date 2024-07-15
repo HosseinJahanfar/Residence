@@ -20,7 +20,6 @@ class CurrentReservation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ReservationApiServices().cancelReservation(22);
     return BlocProvider(
       create: (context) =>
           ReservationBloc(ReservationRepository())..add(CallReservationEvent()),
@@ -36,186 +35,161 @@ class CurrentReservation extends StatelessWidget {
 
           if (state is ReservationCompleted) {
             ReservationModel helper = state.reservationModel;
-
             return CustomScrollView(
               slivers: [
-                helper.currentReservations!.isEmpty
-                    ? SliverToBoxAdapter(
-                  child: Column(
-                    
-                    children: [
-                    ],
-                  )
-                )
-
-                    : SliverPadding(
-                        padding: EdgeInsets.symmetric(vertical: 5.sp),
-                        sliver: SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                          childCount: helper.currentReservations!.length,
-                          (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5.sp, horizontal: 10.sp),
-                              child: Container(
-                                width: getAllWidth(context),
-                                height: 100,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: getBorderRadiusFunc(5)),
-                                child: Row(
-                                  children: [
-                                    //! sliver pictures
-                                    Expanded(
-                                      flex: 2,
-                                      child: SizedBox(
-                                        width: getAllWidth(context),
-                                        height: getAllHeight(context),
-                                        child: ClipRRect(
-                                          borderRadius: getBorderRadiusFunc(5),
-                                          child: CachedNetworkImage(
-                                            imageUrl:
-                                                '$baseUrl${helper.currentReservations![index].accommodationFirstImage}',
-                                            fit: BoxFit.cover,
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    Image.asset(
-                                              'assets/images/logo.png',
-                                              errorBuilder: (context, error,
-                                                      stackTrace) =>
-                                                  const SizedBox.shrink(),
-                                              fit: BoxFit.contain,
-                                            ),
-                                            placeholder: (context, url) =>
-                                                Image.asset(
-                                              'assets/images/logo.png',
-                                              errorBuilder: (context, error,
-                                                      stackTrace) =>
-                                                  const SizedBox.shrink(),
-                                              fit: BoxFit.contain,
-                                            ),
-                                          ),
-                                        ),
+                SliverPadding(
+                  padding: EdgeInsets.symmetric(vertical: 5.sp),
+                  sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                    childCount: helper.currentReservations!.length,
+                    (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 5.sp, horizontal: 10.sp),
+                        child: Container(
+                          width: getAllWidth(context),
+                          height: 100,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: getBorderRadiusFunc(5)),
+                          child: Row(
+                            children: [
+                              //! sliver pictures
+                              Expanded(
+                                flex: 2,
+                                child: SizedBox(
+                                  width: getAllWidth(context),
+                                  height: getAllHeight(context),
+                                  child: ClipRRect(
+                                    borderRadius: getBorderRadiusFunc(5),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          '$baseUrl${helper.currentReservations![index].accommodationFirstImage}',
+                                      fit: BoxFit.cover,
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                        'assets/images/logo.png',
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                const SizedBox.shrink(),
+                                        fit: BoxFit.contain,
+                                      ),
+                                      placeholder: (context, url) =>
+                                          Image.asset(
+                                        'assets/images/logo.png',
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                const SizedBox.shrink(),
+                                        fit: BoxFit.contain,
                                       ),
                                     ),
-                                    Expanded(
-                                        flex: 4,
-                                        child: Container(
-                                          width: getAllWidth(context),
-                                          color: Colors.transparent,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal:
-                                                  getWidth(context, 0.04),
-                                              vertical:
-                                                  getWidth(context, 0.02)),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(
-                                                helper
-                                                    .currentReservations![index]
-                                                    .accommodationTitle!,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: 'bold',
-                                                    fontSize: 11.sp),
-                                                maxLines: 1,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                      '${helper.currentReservations![index].numDays} شب',
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .grey.shade500,
-                                                          fontFamily: 'medium',
-                                                          fontSize: 10.sp)),
-                                                  helper
-                                                              .currentReservations![
-                                                                  index]
-                                                              .numDays ==
-                                                          1
-                                                      ? Text(
-                                                          'تاریخ : ${helper.currentReservations![index].startDate}',
-                                                          style: TextStyle(
-                                                              color: Colors.grey
-                                                                  .shade500,
-                                                              fontFamily:
-                                                                  'medium',
-                                                              fontSize: 10.sp))
-                                                      : Text(
-                                                          'شروع از : ${helper.currentReservations![index].startDate}',
-                                                          style: TextStyle(
-                                                              color: Colors.grey
-                                                                  .shade500,
-                                                              fontFamily:
-                                                                  'medium',
-                                                              fontSize: 10.sp))
-                                                ],
-                                              ),
-                                              //!btn delete favorite
-                                              Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: SizedBox(
-                                                  height: 30.0,
-                                                  child: OutlinedButton(
-                                                    style: OutlinedButton
-                                                        .styleFrom(
-                                                      overlayColor: Colors.red,
-                                                      side: const BorderSide(
-                                                          color: Colors.red),
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              getBorderRadiusFunc(
-                                                                  5)),
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  getWidth(
-                                                                          context,
-                                                                          0.08)
-                                                                      .sp),
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                    ),
-                                                    onPressed: () {
-                                                      context
-                                                          .read<
-                                                              ReservationBloc>()
-                                                          .add(CancelReservationEvent(
-                                                              helper
-                                                                  .currentReservations![
-                                                                      index]
-                                                                  .id!));
-                                                    },
-                                                    child: Text(
-                                                      'لغو سفر',
-                                                      style: TextStyle(
-                                                        color: Colors.red,
-                                                        fontFamily: 'bold',
-                                                        fontSize: 9
-                                                            .sp, // تنظیم اندازه فونت کوچک‌تر
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ))
-                                  ],
+                                  ),
                                 ),
                               ),
-                            );
-                          },
-                        )),
-                      )
+                              Expanded(
+                                  flex: 4,
+                                  child: Container(
+                                    width: getAllWidth(context),
+                                    color: Colors.transparent,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: getWidth(context, 0.04),
+                                        vertical: getWidth(context, 0.02)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          helper.currentReservations![index]
+                                              .accommodationTitle!,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'bold',
+                                              fontSize: 11.sp),
+                                          maxLines: 1,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                                '${helper.currentReservations![index].numDays} شب',
+                                                style: TextStyle(
+                                                    color: Colors.grey.shade500,
+                                                    fontFamily: 'medium',
+                                                    fontSize: 10.sp)),
+                                            helper.currentReservations![index]
+                                                        .numDays ==
+                                                    1
+                                                ? Text(
+                                                    'تاریخ : ${helper.currentReservations![index].startDate}',
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .grey.shade500,
+                                                        fontFamily: 'medium',
+                                                        fontSize: 10.sp))
+                                                : Text(
+                                                    'شروع از : ${helper.currentReservations![index].startDate}',
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .grey.shade500,
+                                                        fontFamily: 'medium',
+                                                        fontSize: 10.sp))
+                                          ],
+                                        ),
+                                        //!btn delete favorite
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: SizedBox(
+                                            height: 30.0,
+                                            child: OutlinedButton(
+                                              style: OutlinedButton.styleFrom(
+                                                overlayColor: Colors.red,
+                                                side: const BorderSide(
+                                                    color: Colors.red),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        getBorderRadiusFunc(5)),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        getWidth(context, 0.08)
+                                                            .sp),
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                              ),
+                                              onPressed: () {
+
+                                                context
+                                                    .read<ReservationBloc>()
+                                                    .add(CancelReservationEvent(
+                                                        helper
+                                                            .currentReservations![
+                                                                index]
+                                                            .id!.toString()));
+                                              },
+                                              child: Text(
+                                                'لغو سفر',
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontFamily: 'bold',
+                                                  fontSize: 9
+                                                      .sp, // تنظیم اندازه فونت کوچک‌تر
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  )),
+                )
               ],
             );
           }

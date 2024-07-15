@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:residence/const/shape/border_radius.dart';
 import 'package:residence/const/shape/media_query.dart';
 import 'package:residence/const/theme/colors.dart';
-import 'package:residence/features/public_features/widget/app_bar_widget.dart';
 import 'package:residence/features/reservation_features/screens/pre_reserv_screen.dart';
 
 import 'current_reserv_screen.dart';

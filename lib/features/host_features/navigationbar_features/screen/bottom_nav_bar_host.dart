@@ -4,6 +4,8 @@ import 'package:residence/features/host_features/dashboard_features/screen/dashb
 import '../../../../const/theme/colors.dart';
 import '../../../public_features/logic/bottom_nav_cubit.dart';
 import '../../calender_features/screen/register_residence_user.dart';
+import '../../financial_features/screen/financial_screen.dart';
+import '../../infohost_features/screen/info_host_screen.dart';
 
 class BottomNavBarHost extends StatelessWidget {
   BottomNavBarHost({super.key});
@@ -11,8 +13,8 @@ class BottomNavBarHost extends StatelessWidget {
   final List<Widget> screenList = [
     const DashboardScreen(),
     const RegisterResidenceUser(),
-    Container(),
-    Container(),
+     FinancialScreen(),
+    const InformationHost(),
   ];
 
   @override

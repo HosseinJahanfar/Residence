@@ -9,8 +9,8 @@ import 'package:residence/route/names.dart';
 
 import '../widget/info_widget.dart';
 
-class InformationLogin extends StatelessWidget {
-  const InformationLogin({super.key});
+class InformationGuest extends StatelessWidget {
+  const InformationGuest({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,6 @@ class InformationLogin extends StatelessWidget {
       width: getAllWidth(context),
       child: SingleChildScrollView(
         child: Column(
-
           children: [
             Container(
               width: getAllWidth(context),
@@ -26,7 +25,7 @@ class InformationLogin extends StatelessWidget {
               alignment: Alignment.center,
               color: Colors.transparent,
               child: Text(
-                'علاقه مندی ها',
+                'اطلاعات من',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontFamily: 'bold',
@@ -47,7 +46,8 @@ class InformationLogin extends StatelessWidget {
                         //!title
                         Text(
                           'میزبانی اقامتگاه',
-                          style: TextStyle(color: greyTxtListColor),
+                          style: TextStyle(
+                              color: greyTxtListColor, fontFamily: 'bold'),
                         ),
                         SizedBox(
                           height: 10.sp,
@@ -59,19 +59,14 @@ class InformationLogin extends StatelessWidget {
                           iconData: FontAwesome.exchange,
                           function: () {},
                         ),
-                        InfoItemsWidget(
-                          title: 'اضافه کردن اقامتگاه',
-                          subTitle:
-                              'اقامتگاه دارید؟ با استفاده از همین حساب کاربری، اقامتگاه های خود را مدیریت کنید.',
-                          iconData: AntDesign.home,
-                          function: () {},
-                        ),
+
                         SizedBox(
                           height: 10.sp,
                         ),
                         Text(
                           'پشتیبانی مشتریان',
-                          style: TextStyle(color: greyTxtListColor),
+                          style: TextStyle(
+                              color: greyTxtListColor, fontFamily: 'bold'),
                         ),
                         SizedBox(
                           height: 10.sp,
@@ -101,8 +96,10 @@ class InformationLogin extends StatelessWidget {
                               'امتیاز و بازخورد به اپلیکیشن اقامتگاه در مارکت ها',
                           iconData: FontAwesome.star_half_full,
                           function: () {
-                            getSnackBarWidget(context,
-                                'سوالات خود را در سایت بپرسید!', Colors.green);
+                            getSnackBarWidget(
+                                context,
+                                'لینک امتیاز دهی برای شما پیامک می شود.',
+                                Colors.green);
                           },
                         ),
                         AboutWidget(

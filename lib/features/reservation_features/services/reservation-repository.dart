@@ -16,7 +16,7 @@ class ReservationRepository{
   }
 
   ///cancel reservation
-  Future<void> cancelReservation(int id) async {
+  Future<void> cancelReservation(String id) async {
     await _reservationApiServices.cancelReservation(id);
   }
 }

@@ -29,7 +29,7 @@ class ReservationApiServices {
   }
 
   ///cancel reservation
-  Future<Response> cancelReservation(int id) async {
+  Future<Response> cancelReservation(String id) async {
     _dio.options.connectTimeout = const Duration(seconds: 30);
     _dio.options.receiveTimeout = const Duration(seconds: 30);
     _dio.options.sendTimeout = const Duration(seconds: 30);

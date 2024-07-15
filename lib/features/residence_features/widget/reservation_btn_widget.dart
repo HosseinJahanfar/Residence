@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:residence/features/public_features/widget/snack_bar.dart';
 import 'package:residence/features/residence_features/model/residence_detail_model.dart';
-import 'package:residence/features/residence_features/services/residence_repository.dart';
 import 'package:residence/features/residence_features/widget/outline_btn_widget.dart';
 import '../../../const/shape/border_radius.dart';
 import '../../../const/shape/media_query.dart';
