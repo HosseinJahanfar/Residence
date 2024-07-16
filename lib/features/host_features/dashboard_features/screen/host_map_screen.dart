@@ -14,13 +14,15 @@ class HostMapScreen extends StatelessWidget {
     //!id
     final Map<String, dynamic> arguments =
     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    return Scaffold(
-        appBar: const AppBarHost(title: 'موقعیت مکانی اقامتگاه'),
-        body: FlutterHostMapWidget(
-          lat: double.parse(arguments['lat']),
-          long:  double.parse(arguments['long']),
-          initialZoom: 14.sp,
-          interAction: true,
-        ));
+    return SafeArea(
+      child: Scaffold(
+          appBar: const AppBarHost(title: 'موقعیت مکانی اقامتگاه'),
+          body: FlutterHostMapWidget(
+            lat: double.parse(arguments['lat']),
+            long:  double.parse(arguments['long']),
+            initialZoom: 14.sp,
+            interAction: true,
+          )),
+    );
   }
 }

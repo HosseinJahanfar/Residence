@@ -86,249 +86,251 @@ class _PersianDatePickerState extends State<HostPersianDatePickerScreen> {
       create: (context) => SendDatePickerResidenceBloc(CalenderRepository())
         ..add(CallGetRegisterResidenceUserEvent(
             id: KeySendDataHost.idHostSubmitResidence.toString())),
-      child: Scaffold(
-        appBar: const AppBarHost(title: 'ثبت اقامتگاه'),
-        resizeToAvoidBottomInset: false,
-        body: BlocListener<SendDatePickerResidenceBloc,
-            SendDatePickerResidenceState>(
-          listener: (context, state) {
-            if (state is GetRegisterResidenceUserCompleted) {
-              setState(() {
-                selectedDates =
-                    context.read<SendDatePickerResidenceBloc>().result;
-                res();
-              });
-            } else if (state is SendDatePickerResidenceErrorState) {
-              getSnackBarWidget(
-                  context, state.errorMessage.toString(), Colors.red);
-            }
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getWidth(context, 0.03),
-                vertical: getWidth(context, 0.03)),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: _globalKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                Utils.format(currentMonth),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.sp,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: _toggleMonth,
-                                icon: Icon(isNextMonth
-                                    ? Icons.arrow_back
-                                    : Icons.arrow_forward),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10.sp),
-                          GridView.builder(
-                            shrinkWrap: true,
-                            itemCount: allDisplayedDates.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                              crossAxisSpacing: 5,
-                              mainAxisSpacing: 5,
-                              childAspectRatio: 3,
-                            ),
-                            itemBuilder: (context, index) {
-                              final String date = allDisplayedDates[index];
-                              final bool isSelected =
-                              _selectedDates.contains(date);
-                              final bool isInAllDateModel =
-                              isDateInAllDateModel(
-                                date,
-                                context
-                                    .read<SendDatePickerResidenceBloc>()
-                                    .allDateModel,
-                              );
-
-                              return GestureDetector(
-                                onTap: () {
-                                  if (!isInAllDateModel) {
-                                    setState(() {
-                                      _selectedDates.clear();
-                                      _selectedDates.add(date);
-                                    });
-                                  }
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? primaryColor
-                                        : (isInAllDateModel
-                                        ? Colors.red
-                                        : Colors.transparent),
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: primaryColor),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: const AppBarHost(title: 'ثبت اقامتگاه'),
+          resizeToAvoidBottomInset: false,
+          body: BlocListener<SendDatePickerResidenceBloc,
+              SendDatePickerResidenceState>(
+            listener: (context, state) {
+              if (state is GetRegisterResidenceUserCompleted) {
+                setState(() {
+                  selectedDates =
+                      context.read<SendDatePickerResidenceBloc>().result;
+                  res();
+                });
+              } else if (state is SendDatePickerResidenceErrorState) {
+                getSnackBarWidget(
+                    context, state.errorMessage.toString(), Colors.red);
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: getWidth(context, 0.03),
+                  vertical: getWidth(context, 0.03)),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: _globalKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  Utils.format(currentMonth),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.sp,
                                   ),
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Text(
-                                    date,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      fontSize: 10.sp,
-                                      fontFamily: 'dana',
+                                ),
+                                IconButton(
+                                  onPressed: _toggleMonth,
+                                  icon: Icon(isNextMonth
+                                      ? Icons.arrow_back
+                                      : Icons.arrow_forward),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10.sp),
+                            GridView.builder(
+                              shrinkWrap: true,
+                              itemCount: allDisplayedDates.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4,
+                                crossAxisSpacing: 5,
+                                mainAxisSpacing: 5,
+                                childAspectRatio: 3,
+                              ),
+                              itemBuilder: (context, index) {
+                                final String date = allDisplayedDates[index];
+                                final bool isSelected =
+                                _selectedDates.contains(date);
+                                final bool isInAllDateModel =
+                                isDateInAllDateModel(
+                                  date,
+                                  context
+                                      .read<SendDatePickerResidenceBloc>()
+                                      .allDateModel,
+                                );
+        
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (!isInAllDateModel) {
+                                      setState(() {
+                                        _selectedDates.clear();
+                                        _selectedDates.add(date);
+                                      });
+                                    }
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? primaryColor
+                                          : (isInAllDateModel
+                                          ? Colors.red
+                                          : Colors.transparent),
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(color: primaryColor),
+                                    ),
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Text(
+                                      date,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 10.sp,
+                                        fontFamily: 'dana',
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            height: 15.sp,
-                          ),
-                          Utils.titleTextField('قیمت اقامتگاه'),
-                          SizedBox(
-                            height: 5.sp,
-                          ),
-                          InputTextFieldPriceWidget(
-                            hintText: "لطفاً قیمت اقامتگاه خود را وارد کنید.",
-                            textInputAction: TextInputAction.next,
-                            floatingLabelBehavior: FloatingLabelBehavior.auto,
-                            controller: priceController,
-                            maxLength: 12,
-                            textInputType: TextInputType.number,
-                          ),
-                          SizedBox(
-                            height: 5.sp,
-                          ),
-                          Utils.titleTextField('تخفیف اقامتگاه'),
-                          SizedBox(
-                            height: 5.sp,
-                          ),
-                          InputTextFieldDiscountWidget(
-                            hintText:
-                            "لطفاً میزان تخفیف هر اقامتگاه را وارد کنید.",
-                            textInputAction: TextInputAction.done,
-                            floatingLabelBehavior: FloatingLabelBehavior.auto,
-                            controller: discountController,
-                            maxLength: 3,
-                            textInputType: TextInputType.number,
-                          ),
-                          SizedBox(
-                            height: 5.sp,
-                          ),
-                          BlocConsumer<SendDatePickerResidenceBloc,
-                              SendDatePickerResidenceState>(
-                            listener: (context, state) {
-                              if (state
-                              is SendDatePickerResidenceCompletedState) {
-                                getSnackBarWidget(context,
-                                    state.success.toString(), Colors.green);
-                              }
-
-                              if (state
-                              is SendDatePickerResidenceErrorState) {
-                                getSnackBarWidget(
-                                    context,
-                                    state.errorMessage.toString(),
-                                    Colors.red);
-                              }
-                            },
-                            builder: (context, state) {
-                              if (state
-                              is SendDatePickerResidenceLoadingState) {
-                                return const Center(
-                                    child: SpinKitFadingCube(
-                                      color: primaryColor,
-                                      size: 40.0,
-                                    ));
-                              }
-
-                              return ElevatedBtnWidget(
-                                  title: 'ثبت تاریخ',
-                                  func: () {
-                                    if (_globalKey.currentState!.validate()) {
-                                      if (_selectedDates.isEmpty ||
-                                          priceController.text
-                                              .trim()
-                                              .isEmpty ||
-                                          discountController.text
-                                              .trim()
-                                              .isEmpty) {
-                                        getSnackBarWidget(
-                                            context,
-                                            'لطفا تاریخ و فیلد های قیمت و تخفیف را وارد نمایید.',
-                                            Colors.red);
-                                      } else {
-                                        _selectedDates
-                                            .add(priceController.text.trim());
-                                        _selectedDates.add(
-                                            discountController.text.trim());
-                                        priceController.clear();
-                                        discountController.clear();
-
-                                        context
-                                            .read<
-                                            SendDatePickerResidenceBloc>()
-                                            .add(CallSendDatePickerResidenceEvent(
-                                            date: _selectedDates[0]
-                                                .replaceAll('/', '-')
-                                                .toString(),
-                                            accommodation: KeySendDataHost
-                                                .idHostSubmitResidence,
-                                            defaultPrice: int.parse(
-                                                _selectedDates[1]
-                                                    .replaceAll(',', '')),
-                                            discountPercentage: int.parse(
-                                                _selectedDates[2])));
-                                        context
-                                            .read<
-                                            SendDatePickerResidenceBloc>()
-                                            .add(
-                                            CallGetRegisterResidenceUserEvent(
-                                                id: KeySendDataHost
-                                                    .idHostSubmitResidence
-                                                    .toString()));
-                                        _selectedDates.clear();
+                                );
+                              },
+                            ),
+                            SizedBox(
+                              height: 15.sp,
+                            ),
+                            Utils.titleTextField('قیمت اقامتگاه'),
+                            SizedBox(
+                              height: 5.sp,
+                            ),
+                            InputTextFieldPriceWidget(
+                              hintText: "لطفاً قیمت اقامتگاه خود را وارد کنید.",
+                              textInputAction: TextInputAction.next,
+                              floatingLabelBehavior: FloatingLabelBehavior.auto,
+                              controller: priceController,
+                              maxLength: 12,
+                              textInputType: TextInputType.number,
+                            ),
+                            SizedBox(
+                              height: 5.sp,
+                            ),
+                            Utils.titleTextField('تخفیف اقامتگاه'),
+                            SizedBox(
+                              height: 5.sp,
+                            ),
+                            InputTextFieldDiscountWidget(
+                              hintText:
+                              "لطفاً میزان تخفیف هر اقامتگاه را وارد کنید.",
+                              textInputAction: TextInputAction.done,
+                              floatingLabelBehavior: FloatingLabelBehavior.auto,
+                              controller: discountController,
+                              maxLength: 3,
+                              textInputType: TextInputType.number,
+                            ),
+                            SizedBox(
+                              height: 5.sp,
+                            ),
+                            BlocConsumer<SendDatePickerResidenceBloc,
+                                SendDatePickerResidenceState>(
+                              listener: (context, state) {
+                                if (state
+                                is SendDatePickerResidenceCompletedState) {
+                                  getSnackBarWidget(context,
+                                      state.success.toString(), Colors.green);
+                                }
+        
+                                if (state
+                                is SendDatePickerResidenceErrorState) {
+                                  getSnackBarWidget(
+                                      context,
+                                      state.errorMessage.toString(),
+                                      Colors.red);
+                                }
+                              },
+                              builder: (context, state) {
+                                if (state
+                                is SendDatePickerResidenceLoadingState) {
+                                  return const Center(
+                                      child: SpinKitFadingCube(
+                                        color: primaryColor,
+                                        size: 40.0,
+                                      ));
+                                }
+        
+                                return ElevatedBtnWidget(
+                                    title: 'ثبت تاریخ',
+                                    func: () {
+                                      if (_globalKey.currentState!.validate()) {
+                                        if (_selectedDates.isEmpty ||
+                                            priceController.text
+                                                .trim()
+                                                .isEmpty ||
+                                            discountController.text
+                                                .trim()
+                                                .isEmpty) {
+                                          getSnackBarWidget(
+                                              context,
+                                              'لطفا تاریخ و فیلد های قیمت و تخفیف را وارد نمایید.',
+                                              Colors.red);
+                                        } else {
+                                          _selectedDates
+                                              .add(priceController.text.trim());
+                                          _selectedDates.add(
+                                              discountController.text.trim());
+                                          priceController.clear();
+                                          discountController.clear();
+        
+                                          context
+                                              .read<
+                                              SendDatePickerResidenceBloc>()
+                                              .add(CallSendDatePickerResidenceEvent(
+                                              date: _selectedDates[0]
+                                                  .replaceAll('/', '-')
+                                                  .toString(),
+                                              accommodation: KeySendDataHost
+                                                  .idHostSubmitResidence,
+                                              defaultPrice: int.parse(
+                                                  _selectedDates[1]
+                                                      .replaceAll(',', '')),
+                                              discountPercentage: int.parse(
+                                                  _selectedDates[2])));
+                                          context
+                                              .read<
+                                              SendDatePickerResidenceBloc>()
+                                              .add(
+                                              CallGetRegisterResidenceUserEvent(
+                                                  id: KeySendDataHost
+                                                      .idHostSubmitResidence
+                                                      .toString()));
+                                          _selectedDates.clear();
+                                        }
                                       }
-                                    }
-                                  });
-                            },
-                          ),
-                          SizedBox(
-                            height: 15.sp,
-                          ),
-                          BlocBuilder<SendDatePickerResidenceBloc,
-                              SendDatePickerResidenceState>(
-                            builder: (context, state) {
-                              return buildDateGrid(
-                                  context,
-                                  state,
-                                  KeySendDataHost.idHostSubmitResidence
-                                      .toString());
-                            },
-                          ),
-                          SizedBox(
-                            height: 10.sp,
-                          )
-                        ],
+                                    });
+                              },
+                            ),
+                            SizedBox(
+                              height: 15.sp,
+                            ),
+                            BlocBuilder<SendDatePickerResidenceBloc,
+                                SendDatePickerResidenceState>(
+                              builder: (context, state) {
+                                return buildDateGrid(
+                                    context,
+                                    state,
+                                    KeySendDataHost.idHostSubmitResidence
+                                        .toString());
+                              },
+                            ),
+                            SizedBox(
+                              height: 10.sp,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

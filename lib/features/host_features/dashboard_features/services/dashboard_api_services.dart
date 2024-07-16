@@ -72,25 +72,25 @@ class DashboardApiServices {
 
   ///callResidenceRegistration host residence
   Future<Response> callResidenceRegistration(
-      int category,
-      String title,
-      String description,
-      int roomCount,
-      int minimumCapacity,
-      int maximumCapacity,
-      int province,
-      int city,
-      String address,
-      String accommodationAbout,
-      List<int> optionsList,
-      String checkInTime,
-      String checkOutTime,
-      List<int> regulations,
-      double lat,
-      double long,
-      int additionalPersonPrice,
-      List<String> imageList,
-      ) async {
+    int category,
+    String title,
+    String description,
+    int roomCount,
+    int minimumCapacity,
+    int maximumCapacity,
+    int province,
+    int city,
+    String address,
+    String accommodationAbout,
+    List<int> optionsList,
+    String checkInTime,
+    String checkOutTime,
+    List<int> regulations,
+    double lat,
+    double long,
+    int additionalPersonPrice,
+    List<String> imageList,
+  ) async {
     try {
       _dio.options.connectTimeout = const Duration(seconds: 30);
       _dio.options.receiveTimeout = const Duration(seconds: 30);
@@ -131,7 +131,8 @@ class DashboardApiServices {
       for (String imagePath in imageList) {
         formData.files.add(MapEntry(
           'images',
-          await MultipartFile.fromFile(imagePath, filename: imagePath.split('/').last),
+          await MultipartFile.fromFile(imagePath,
+              filename: imagePath.split('/').last),
         ));
       }
 
@@ -147,8 +148,70 @@ class DashboardApiServices {
       throw e;
     }
   }
+
+  ///callParkingRegistrationUser host residence
+  Future<Response> callParkingRegistrationUser(
+      String typeParking,
+      String title,
+      String description,
+      String address,
+      int capacity,
+      int province,
+      int city,
+      double lat,
+      double long,
+      bool isCheckingParking,
+      int price,
+      List<String> imageList,
+      ) async {
+    try {
+      _dio.options.connectTimeout = const Duration(seconds: 30);
+      _dio.options.receiveTimeout = const Duration(seconds: 30);
+      _dio.options.sendTimeout = const Duration(seconds: 30);
+
+      final token = await SecureStorageClass().getUserToken();
+
+      // Adding the token to the request headers
+      Options options = Options(
+        headers: {
+          'Authorization': 'Token $token',
+          'Content-Type': 'multipart/form-data',
+        },
+      );
+
+      // Preparing the form data
+      FormData formData = FormData.fromMap({
+        'parking_type': typeParking,
+        'title': title,
+        'description': description,
+        'address': address,
+        'capacity': capacity.toString(),
+        'province': province.toString(),
+        'city': city.toString(),
+        'location.latitude': lat.toString(),
+        'location.longitude': long.toString(),
+        'car_shade': isCheckingParking.toString(),
+        'price': price.toString()
+      });
+
+      // Adding files to the form data
+      for (String imagePath in imageList) {
+        formData.files.add(MapEntry(
+          'images',
+          await MultipartFile.fromFile(imagePath,
+              filename: imagePath.split('/').last),
+        ));
+      }
+
+      final Response response = await _dio.post(
+        '$baseUrl/parking/create',
+        data: formData,
+        options: options,
+      );
+      return response;
+    } catch (e) {
+      print('Error calling residence registration API: $e');
+      throw e;
+    }
+  }
 }
-
-
-
-

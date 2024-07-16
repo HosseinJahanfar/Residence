@@ -19,112 +19,116 @@ class TypeParking extends StatelessWidget {
 
   List<String> nameParking = ['عمومی', 'خصوصی'];
   List<IconData> iconList = [Icons.garage_outlined, Icons.local_parking];
+  List<String> enParking = ['Public', 'Private'];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: const AppBarHost(title: 'نوع پارکینگ'),
-        //!Body
-        body: BlocProvider(
-          create: (context) =>
-              DashboardBloc(DashboardRepository())..add(CallDashboard()),
-          child: BlocBuilder<DashboardBloc, DashboardState>(
-            builder: (context, state) {
-              if (state is DashboardLoadingState) {
-                return const Center(
-                    child: SpinKitFadingCube(
-                  color: primaryColor,
-                  size: 40.0,
-                ));
-              }
-
-              if (state is DashboardCompletedState) {
-                HostModel helper = state.hostModel;
-                return Container(
-                  width: getAllWidth(context),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: getWidth(context, 0.03)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'چه نوع پارکینگی دارید؟',
-                        style: TextStyle(fontFamily: 'bold', fontSize: 16.sp),
-                      ),
-                      SizedBox(
-                        height: 15.sp,
-                      ),
-                      Expanded(
-                        child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10),
-                          itemCount: 2,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () {
-                                KeySendDataHost.typeParking = index;
-                                //!NextPage
-                                Navigator.pushNamed(
-                                    context, ScreenNames.parkingDetailScreen,
-                                    arguments: {'parking_id': helper});
-                              },
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    flex: 5,
-                                    child: ClipRRect(
-                                        borderRadius:
-                                            getBorderRadiusFunc(10.sp),
-                                        child: Container(
-                                            width: getAllWidth(context),
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey.shade300,
-                                            ),
-                                            child: Icon(
-                                              iconList[index],
-                                              size: 100,
-                                              color: primary2Color,
-                                            ))),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      width: getAllWidth(context),
-                                      child: Text(
-                                        nameParking[index],
-                                        style: TextStyle(
-                                            fontFamily: 'medium',
-                                            fontSize: 14.sp),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
+    return SafeArea(
+      child: Scaffold(
+          appBar: const AppBarHost(title: 'نوع پارکینگ'),
+          //!Body
+          body: BlocProvider(
+            create: (context) =>
+                DashboardBloc(DashboardRepository())..add(CallDashboard()),
+            child: BlocBuilder<DashboardBloc, DashboardState>(
+              builder: (context, state) {
+                if (state is DashboardLoadingState) {
+                  return const Center(
+                      child: SpinKitFadingCube(
+                    color: primaryColor,
+                    size: 40.0,
+                  ));
+                }
+      
+                if (state is DashboardCompletedState) {
+                  HostModel helper = state.hostModel;
+                  return Container(
+                    width: getAllWidth(context),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: getWidth(context, 0.03)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'چه نوع پارکینگی دارید؟',
+                          style: TextStyle(fontFamily: 'bold', fontSize: 16.sp),
                         ),
-                      )
-                    ],
-                  ),
-                );
-              }
-              if (state is DashboardErrorState) {
-                return ErrorScreenWidget(
-                    errorMsg: state.errorMessage.toString(),
-                    function: () {
-                      BlocProvider.of<DashboardBloc>(context)
-                          .add(CallDashboard());
-                    });
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-        ));
+                        SizedBox(
+                          height: 15.sp,
+                        ),
+                        Expanded(
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10),
+                            itemCount: 2,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () {
+                                  KeySendDataHost.typeParking = enParking[index];
+                                  KeySendDataHost.isChecking=false;
+                                  //!NextPage
+                                  Navigator.pushNamed(
+                                      context, ScreenNames.parkingDetailScreen,
+                                      arguments: {'parking_id': helper});
+                                },
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      flex: 5,
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              getBorderRadiusFunc(10.sp),
+                                          child: Container(
+                                              width: getAllWidth(context),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade300,
+                                              ),
+                                              child: Icon(
+                                                iconList[index],
+                                                size: 100,
+                                                color: primary2Color,
+                                              ))),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: getAllWidth(context),
+                                        child: Text(
+                                          nameParking[index],
+                                          style: TextStyle(
+                                              fontFamily: 'medium',
+                                              fontSize: 14.sp),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }
+                if (state is DashboardErrorState) {
+                  return ErrorScreenWidget(
+                      errorMsg: state.errorMessage.toString(),
+                      function: () {
+                        BlocProvider.of<DashboardBloc>(context)
+                            .add(CallDashboard());
+                      });
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          )),
+    );
   }
 }

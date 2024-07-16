@@ -29,11 +29,12 @@ class KeySendDataHost {
   static int detailId = 0;
 
 //! Submit Parking
-  static int typeParking = 0;
+  static bool isChecking=false;
+  static String typeParking = '';
+  static String titleParking='';
   static String descriptionParking='';
   static int capacityParking=0;
-  static String checkInTimeParking='';
-  static String checkOutTimeParking='';
+  static int priceParking=0;
   static bool isCheckedParking=false;
   static int provinceParking = 0;
   static int cityParking = 0;

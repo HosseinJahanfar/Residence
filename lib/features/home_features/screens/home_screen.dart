@@ -94,6 +94,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             //!ParkingWidget
                             ParkingWidget(homeModel: homeModel),
+
                           ],
                         ),
                       ]))

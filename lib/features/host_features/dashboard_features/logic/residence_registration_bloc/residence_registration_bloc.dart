@@ -45,9 +45,30 @@ class ResidenceRegistrationBloc
             errorMessage: ErrorExceptions().fromError(e).toString()));
       }
     });
+
+    on<CallParkingRegistrationEvent>((event, emit) async {
+      emit(ResidenceRegistrationLoadingState());
+
+      try {
+        await _dashboardRepository.callParkingRegistrationUserRepository(
+            event.typeParking,
+            event.title,
+            event.description,
+            event.address,
+            event.capacity,
+            event.province,
+            event.city,
+            event.lat,
+            event.long,
+            event.isCheckingParking,
+            event.price,
+            event.imageList);
+        emit(ResidenceRegistrationCompletedState(
+            success: 'پارکینگ شما با موفیقت ثبت شد.'));
+      } on DioException catch (e) {
+        emit(ResidenceRegistrationErrorState(
+            errorMessage: ErrorExceptions().fromError(e).toString()));
+      }
+    });
   }
 }
-
-
-
-

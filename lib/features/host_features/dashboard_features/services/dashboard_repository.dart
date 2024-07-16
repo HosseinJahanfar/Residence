@@ -76,4 +76,33 @@ class DashboardRepository {
         additionalPersonPrice,
         imageList);
   }
+
+  ///callParkingRegistrationUser host residence
+  Future<void> callParkingRegistrationUserRepository(
+      String typeParking,
+      String title,
+      String description,
+      String address,
+      int capacity,
+      int province,
+      int city,
+      double lat,
+      double long,
+      bool isCheckingParking,
+      int price,
+      List<String> imageList) async {
+    await _apiDashboardServices.callParkingRegistrationUser(
+        typeParking,
+        title,
+        description,
+        address,
+        capacity,
+        province,
+        city,
+        lat,
+        long,
+        isCheckingParking,
+        price,
+        imageList);
+  }
 }

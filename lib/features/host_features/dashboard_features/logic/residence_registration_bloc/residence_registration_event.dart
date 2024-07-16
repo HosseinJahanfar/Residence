@@ -43,3 +43,32 @@ final class CallResidenceRegistration extends ResidenceRegistrationEvent {
       required this.additionalPersonPrice,
       required this.imageList});
 }
+
+final class CallParkingRegistrationEvent extends ResidenceRegistrationEvent {
+  final String typeParking;
+  final String title;
+  final String description;
+  final String address;
+  final int capacity;
+  final int province;
+  final int city;
+  final double lat;
+  final double long;
+  final bool isCheckingParking;
+  final int price;
+  final List<String> imageList;
+
+  CallParkingRegistrationEvent(
+      {required this.typeParking,
+      required this.title,
+      required this.description,
+      required this.address,
+      required this.capacity,
+      required this.province,
+      required this.city,
+      required this.lat,
+      required this.long,
+      required this.isCheckingParking,
+      required this.price,
+      required this.imageList});
+}

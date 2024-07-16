@@ -45,136 +45,123 @@ class ParkingWidget extends StatelessWidget {
             itemCount: homeModel.parkingsInBigCities!.length,
             itemBuilder: (context, index) {
               var helper = homeModel.parkingsInBigCities![index];
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: getWidth(context, 0.6),
-                    height: getWidth(context, 0.36),
-                    child: ClipRRect(
-                        borderRadius: getBorderRadiusFunc(10),
-                        child: CachedNetworkImage(
-                          placeholder: (context, url) => Image.asset(
-                            'assets/images/logo.png',
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const SizedBox.shrink(),
-                          ),
-                          errorWidget: (context, url, error) => Image.asset(
-                            'assets/images/logo.png',
-                            errorBuilder: (context, error, stackTrace) =>
-                                const SizedBox.shrink(),
-                          ),
-                          imageUrl: baseUrl + helper.image!,
-                          fit: BoxFit.cover,
-                          width: getWidth(context, 0.40),
-                        )),
-                  ),
-                  SizedBox(
-                    height: 8.sp,
-                  ),
-                  Text(
-                    helper.title!,
-                    style: TextStyle(
-                      fontFamily: 'bold',
-                      fontSize: 14.sp,
+              return Container(
+                width: getWidth(context, 0.6),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.sp),
+                      topRight: Radius.circular(10.sp)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.02),
+
+                      spreadRadius: 8,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3), // موقعیت سایه: (افقی، عمودی)
                     ),
-                  ),
-                  SizedBox(
-                    height: 5.sp,
-                  ),
-                  helper.discountPercentage == 0
-                      ? Padding(
-                          padding: EdgeInsets.symmetric(vertical: 2.5.sp),
-                          child: Text(
-                            '${helper.province!} ، ${helper.city!}',
-                            style: TextStyle(
-                                fontFamily: 'medium',
-                                fontSize: 12.sp,
-                                color: greyTxtColor),
-                          ),
-                        )
-                      : Text(
-                          '${helper.province!} ، ${helper.city!}',
-                          style: TextStyle(
-                              fontFamily: 'medium',
-                              fontSize: 12.sp,
-                              color: greyTxtColor),
-                        ),
-                  Row(
-                    children: [
-                      helper.discountPercentage == 0
-                          ? Padding(
-                              padding: EdgeInsets.symmetric(vertical: 2.5.sp),
-                              child: RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text:
-                                          '${getPriceFormat(helper.defaultPrice.toString())} تومان',
-                                      style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color: primary2Color,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'bold')),
-                                  TextSpan(
-                                      text: '/ هرشب',
-                                      style: TextStyle(
-                                          fontSize: 10.sp,
-                                          color: primary2Color,
-                                          fontFamily: 'medium')),
-                                ]),
-                              ),
-                            )
-                          : Text(
-                              '${getPriceFormat(helper.percentPrice!.toString())} تومان',
-                              style: TextStyle(
-                                  fontFamily: 'bold',
-                                  decoration: TextDecoration.lineThrough,
-                                  decorationColor: greyTxtColor,
-                                  color: greyTxtColor),
+                  ],
+                ),
+                // color: Colors.pink,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: getWidth(context, 0.6),
+                      height: getWidth(context, 0.36),
+                      child: ClipRRect(
+                          borderRadius: getBorderRadiusFunc(10),
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) => Image.asset(
+                              'assets/images/logo.png',
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const SizedBox.shrink(),
                             ),
-                      SizedBox(
-                        width: 10.sp,
-                      ),
-                      helper.discountPercentage == 0
-                          ? const SizedBox.shrink()
-                          : Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10.sp, vertical: 5.sp),
-                              decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: getBorderRadiusFunc(50)),
-                              child: Text(
-                                '${helper.discountPercentage!.toString()}%',
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'bold',
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            )
-                    ],
-                  ),
-                  helper.discountPercentage == 0
-                      ? const SizedBox.shrink()
-                      : RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                                text:
-                                    '${getPriceFormat(helper.defaultPrice.toString())} تومان',
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: primary2Color,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'bold')),
-                            TextSpan(
-                                text: '/ هرشب',
+                            errorWidget: (context, url, error) => Image.asset(
+                              'assets/images/logo.png',
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const SizedBox.shrink(),
+                            ),
+                            imageUrl: baseUrl + helper.image!,
+                            fit: BoxFit.cover,
+                            width: getWidth(context, 0.40),
+                          )),
+                    ),
+                    SizedBox(
+                      height: 8.sp,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            helper.title!,
+                            style: TextStyle(
+                              fontFamily: 'bold',
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.sp,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'استان : ${helper.province}',
                                 style: TextStyle(
                                     fontSize: 10.sp,
-                                    color: primary2Color,
-                                    fontFamily: 'medium')),
-                          ]),
-                        )
-                ],
+                                    fontFamily: 'normal',
+                                    color: Colors.grey.shade500),
+                              ),
+                              Text(
+                                'شهر : ${helper.city}',
+                                style: TextStyle(
+                                    fontSize: 10.sp,
+                                    fontFamily: 'normal',
+                                    color: Colors.grey.shade500),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.sp,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'نوع پارکینگ : ${helper.parkingType}',
+                                style: TextStyle(
+                                    fontSize: 10.sp,
+                                    fontFamily: 'medium',
+                                    color: Colors.grey.shade500),
+                              ),
+                              Text(
+                                'ظرفیت خالی : ${helper.remainingCapacity}',
+                                style: TextStyle(
+                                    fontSize: 10.sp,
+                                    fontFamily: 'medium',
+                                    color: Colors.grey.shade500),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.sp,
+                          ),
+                          Center(
+                              child: Text(
+                            'قیمت پارکینگ: ${getPriceFormat(helper.price)}',
+                            style: TextStyle(
+                                fontSize: 12.sp,
+                                fontFamily: 'medium',
+                                color: Colors.black),
+                          )),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               );
             },
             separatorBuilder: (BuildContext context, int index) {
@@ -183,7 +170,7 @@ class ParkingWidget extends StatelessWidget {
               );
             },
           ),
-        )
+        ),
       ],
     );
   }

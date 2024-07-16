@@ -113,6 +113,25 @@ class CalenderApiServices {
     }
   }
 
+///callCallRegisterParkingUser
+  Future<Response> callCallRegisterParkingUser() async {
+    _dio.options.connectTimeout = const Duration(seconds: 30);
+    _dio.options.receiveTimeout = const Duration(seconds: 30);
+    _dio.options.sendTimeout = const Duration(seconds: 30);
+    final token = await SecureStorageClass().getUserToken();
 
-
+    // Adding the token to the request headers
+    Options options = Options(
+      headers: {
+        'Authorization': 'Token $token',
+      },
+    );
+    try {
+      final Response response = await _dio
+          .get('$baseUrl/parking/user/parkings', options: options);
+      return response;
+    } catch (error) {
+      rethrow; // Throwing error for handling in case of unsuccessful request
+    }
+  }
 }

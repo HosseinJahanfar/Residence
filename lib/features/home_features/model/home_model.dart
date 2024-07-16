@@ -1,13 +1,12 @@
 class HomeModel {
   HomeModel({
-    this.sliders,
-    this.southAccommodations,
-    this.popularDestinations,
-    this.suggestionAccommodation,
-    this.northAccommodations,
-    this.pilgrimageAndTouristCities,
-    this.parkingsInBigCities,
-  });
+      this.sliders, 
+      this.southAccommodations, 
+      this.popularDestinations, 
+      this.suggestionAccommodation, 
+      this.northAccommodations, 
+      this.pilgrimageAndTouristCities, 
+      this.parkingsInBigCities,});
 
   HomeModel.fromJson(dynamic json) {
     if (json['sliders'] != null) {
@@ -53,7 +52,6 @@ class HomeModel {
       });
     }
   }
-
   List<Sliders>? sliders;
   List<SouthAccommodations>? southAccommodations;
   List<PopularDestinations>? popularDestinations;
@@ -87,65 +85,60 @@ class HomeModel {
     }
     return map;
   }
+
 }
 
 class ParkingsInBigCities {
   ParkingsInBigCities({
-    this.id,
-    this.title,
-    this.capacity,
-    this.image,
-    this.city,
-    this.province,
-    this.defaultPrice,
-    this.discountPercentage,
-    this.percentPrice,
-  });
+      this.id, 
+      this.title, 
+      this.image, 
+      this.city, 
+      this.province, 
+      this.parkingType, 
+      this.remainingCapacity, 
+      this.price,});
 
   ParkingsInBigCities.fromJson(dynamic json) {
     id = json['id'];
     title = json['title'];
-    capacity = json['capacity'];
     image = json['image'];
     city = json['city'];
     province = json['province'];
-    defaultPrice = json['default_price'].toString();
-    discountPercentage = json['discount_percentage'];
-    percentPrice = json['percent_price'].toString();
+    parkingType = json['parking_type'];
+    remainingCapacity = json['remaining_capacity'];
+    price = json['price'];
   }
-
   int? id;
   String? title;
-  int? capacity;
   String? image;
   String? city;
   String? province;
-  String? defaultPrice;
-  int? discountPercentage;
-  String? percentPrice;
+  String? parkingType;
+  int? remainingCapacity;
+  int? price;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['title'] = title;
-    map['capacity'] = capacity;
     map['image'] = image;
     map['city'] = city;
     map['province'] = province;
-    map['default_price'] = defaultPrice;
-    map['discount_percentage'] = discountPercentage;
-    map['percent_price'] = percentPrice;
+    map['parking_type'] = parkingType;
+    map['remaining_capacity'] = remainingCapacity;
+    map['price'] = price;
     return map;
   }
+
 }
 
 class PilgrimageAndTouristCities {
   PilgrimageAndTouristCities({
-    this.id,
-    this.name,
-    this.province,
-    this.picture,
-  });
+      this.id, 
+      this.name, 
+      this.province, 
+      this.picture,});
 
   PilgrimageAndTouristCities.fromJson(dynamic json) {
     id = json['id'];
@@ -153,7 +146,6 @@ class PilgrimageAndTouristCities {
     province = json['province'];
     picture = json['picture'];
   }
-
   int? id;
   String? name;
   String? province;
@@ -167,15 +159,15 @@ class PilgrimageAndTouristCities {
     map['picture'] = picture;
     return map;
   }
+
 }
 
 class NorthAccommodations {
   NorthAccommodations({
-    this.id,
-    this.name,
-    this.province,
-    this.picture,
-  });
+      this.id, 
+      this.name, 
+      this.province, 
+      this.picture,});
 
   NorthAccommodations.fromJson(dynamic json) {
     id = json['id'];
@@ -183,7 +175,6 @@ class NorthAccommodations {
     province = json['province'];
     picture = json['picture'];
   }
-
   int? id;
   String? name;
   String? province;
@@ -197,20 +188,20 @@ class NorthAccommodations {
     map['picture'] = picture;
     return map;
   }
+
 }
 
 class SuggestionAccommodation {
   SuggestionAccommodation({
-    this.id,
-    this.title,
-    this.maximumCapacity,
-    this.image,
-    this.city,
-    this.province,
-    this.defaultPrice,
-    this.discountPercentage,
-    this.percentPrice,
-  });
+      this.id, 
+      this.title, 
+      this.maximumCapacity, 
+      this.image, 
+      this.city, 
+      this.province, 
+      this.defaultPrice, 
+      this.discountPercentage, 
+      this.percentPrice,});
 
   SuggestionAccommodation.fromJson(dynamic json) {
     id = json['id'];
@@ -219,20 +210,19 @@ class SuggestionAccommodation {
     image = json['image'];
     city = json['city'];
     province = json['province'];
-    defaultPrice = json['default_price'] is int ? (json['default_price'] as int).toDouble() : json['default_price'];
+    defaultPrice = json['default_price'];
     discountPercentage = json['discount_percentage'];
-    percentPrice = json['percent_price'] is int ? (json['percent_price'] as int).toDouble() : json['percent_price'];
+    percentPrice = json['percent_price'];
   }
-
   int? id;
   String? title;
   int? maximumCapacity;
   String? image;
   String? city;
   String? province;
-  double? defaultPrice;
+  int? defaultPrice;
   int? discountPercentage;
-  double? percentPrice;
+  int? percentPrice;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -247,15 +237,15 @@ class SuggestionAccommodation {
     map['percent_price'] = percentPrice;
     return map;
   }
+
 }
 
 class PopularDestinations {
   PopularDestinations({
-    this.id,
-    this.name,
-    this.province,
-    this.picture,
-  });
+      this.id, 
+      this.name, 
+      this.province, 
+      this.picture,});
 
   PopularDestinations.fromJson(dynamic json) {
     id = json['id'];
@@ -263,7 +253,6 @@ class PopularDestinations {
     province = json['province'];
     picture = json['picture'];
   }
-
   int? id;
   String? name;
   String? province;
@@ -277,15 +266,15 @@ class PopularDestinations {
     map['picture'] = picture;
     return map;
   }
+
 }
 
 class SouthAccommodations {
   SouthAccommodations({
-    this.id,
-    this.name,
-    this.province,
-    this.picture,
-  });
+      this.id, 
+      this.name, 
+      this.province, 
+      this.picture,});
 
   SouthAccommodations.fromJson(dynamic json) {
     id = json['id'];
@@ -293,7 +282,6 @@ class SouthAccommodations {
     province = json['province'];
     picture = json['picture'];
   }
-
   int? id;
   String? name;
   String? province;
@@ -307,15 +295,15 @@ class SouthAccommodations {
     map['picture'] = picture;
     return map;
   }
+
 }
 
 class Sliders {
   Sliders({
-    this.id,
-    this.link,
-    this.image,
-    this.type,
-  });
+      this.id, 
+      this.link, 
+      this.image, 
+      this.type,});
 
   Sliders.fromJson(dynamic json) {
     id = json['id'];
@@ -323,7 +311,6 @@ class Sliders {
     image = json['image'];
     type = json['type'];
   }
-
   int? id;
   String? link;
   String? image;
@@ -337,4 +324,5 @@ class Sliders {
     map['type'] = type;
     return map;
   }
+
 }

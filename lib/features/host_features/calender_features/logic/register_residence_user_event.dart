@@ -4,3 +4,5 @@ part of 'register_residence_user_bloc.dart';
 sealed class RegisterResidenceUserEvent {}
 
 final class CallRegisterResidenceUserEvent extends RegisterResidenceUserEvent {}
+
+final class CallRegisterParkingUser extends RegisterResidenceUserEvent {}

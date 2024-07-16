@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:residence/features/host_features/calender_features/model/register_parking_user_model.dart';
 import 'package:residence/features/host_features/calender_features/services/calender_api_services.dart';
 import '../model/all_date_model.dart';
 import '../model/register_residence_user_model.dart';
@@ -29,11 +30,12 @@ class CalenderRepository {
   }
 
   /// send date picker residence
-  Future<String> callSendDatePickerResidenceRepository(
-      String datePicker, int accommodation, int defaultPrice, int discountPercentage) async {
+  Future<String> callSendDatePickerResidenceRepository(String datePicker,
+      int accommodation, int defaultPrice, int discountPercentage) async {
     try {
-      Response response = await _calenderApiServices.callSendDatePickerResidence(
-          datePicker, accommodation, defaultPrice, discountPercentage);
+      Response response =
+          await _calenderApiServices.callSendDatePickerResidence(
+              datePicker, accommodation, defaultPrice, discountPercentage);
       if (response.statusCode == 201) {
         return 'تاریخ اضافه شد';
       } else if (response.statusCode == 200) {
@@ -45,7 +47,6 @@ class CalenderRepository {
       return 'یک خطای ناشناخته رخ داد: $e';
     }
   }
-
 
   /// get all date picker residence
   Future<List<AllDateModel>> getDatePickerResidenceRepository(String id) async {
@@ -68,11 +69,30 @@ class CalenderRepository {
     }
   }
 
-
-
-/// delete date picker residence
+  /// delete date picker residence
   Future<void> callDeleteDatePickerResidenceRepository(String id) async {
     await _calenderApiServices.deleteDatePickerResidence(id);
   }
 
+  ///callCallRegisterParkingUser
+  Future<List<RegisterParkingUserModel>> callRegisterParkingUse() async {
+    try {
+      final Response response =
+          await _calenderApiServices.callCallRegisterParkingUser();
+      if (response.statusCode == 200) {
+        List<dynamic> jsonList =
+            response.data; // فرض: response.data یک لیست از JSON ها است
+
+        List<RegisterParkingUserModel> registerParkingUserModel = jsonList
+            .map((json) => RegisterParkingUserModel.fromJson(json))
+            .toList();
+
+        return registerParkingUserModel;
+      } else {
+        throw Exception('Failed to load register residence users');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
 }

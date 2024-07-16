@@ -46,10 +46,11 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+
       statusBarColor: systemChrome,
       statusBarIconBrightness: Brightness.dark,
       systemNavigationBarColor: systemChrome,
-      systemNavigationBarIconBrightness: Brightness.light));
+      systemNavigationBarIconBrightness: Brightness.dark));
 
   WidgetsFlutterBinding.ensureInitialized();
   await preloadSVGs(
