@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:residence/features/authentication_features/screens/auth_screen.dart';
+import 'package:residence/features/host_features/calender_features/screen/manage_parking.dart';
+import 'package:residence/features/host_features/calender_features/services/calender_repository.dart';
 import 'package:residence/features/host_features/dashboard_features/screen/host_map_screen.dart';
 import 'package:residence/features/host_features/dashboard_features/screen/regulation_residence.dart';
 import 'package:residence/features/host_features/dashboard_features/screen/type_parking.dart';
@@ -10,6 +12,7 @@ import 'package:residence/features/intro_features/screens/check_home.dart';
 import 'package:residence/features/profile_features/screens/profile_screen.dart';
 import '../features/comment_features/screen/show_comment_screen.dart';
 import '../features/home_features/screens/home_screen.dart';
+import '../features/host_features/calender_features/logic/register_parking_user/edit_parking_user_bloc.dart';
 import '../features/host_features/calender_features/screen/host_persian_date_picker.dart';
 import '../features/host_features/dashboard_features/logic/city_logic/city_bloc.dart';
 import '../features/host_features/dashboard_features/screen/accommodation_detail_screen.dart';
@@ -71,6 +74,11 @@ Map<String, Widget Function(BuildContext)> routes = {
         create: (context) => CityBloc(DashboardRepository()),
         child: const AddressParking(),
       ),
-  ScreenNames.financialScreen: (context) =>  FinancialScreen(),
+  ScreenNames.financialScreen: (context) => FinancialScreen(),
+  ScreenNames.manageParkingScreen: (context) =>
+      BlocProvider(
+        create: (context) => EditParkingUserBloc(CalenderRepository()),
+        child: const ManageParking(),
+      ),
 
 };

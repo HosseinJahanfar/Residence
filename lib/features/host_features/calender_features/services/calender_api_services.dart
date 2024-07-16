@@ -22,7 +22,6 @@ class CalenderApiServices {
     try {
       final Response response = await _dio
           .get('$baseUrl/accommodation/user/accommodations', options: options);
-      //  log(response.data.toString());
       return response;
     } catch (error) {
       rethrow; // Throwing error for handling in case of unsuccessful request
@@ -58,7 +57,6 @@ class CalenderApiServices {
         options: options, // Using the request headers
       );
 
-      // log(response.data.toString());
       return response;
     } catch (e) {
       print('Error calling login token API: $e');
@@ -113,7 +111,7 @@ class CalenderApiServices {
     }
   }
 
-///callCallRegisterParkingUser
+  ///callCallRegisterParkingUser
   Future<Response> callCallRegisterParkingUser() async {
     _dio.options.connectTimeout = const Duration(seconds: 30);
     _dio.options.receiveTimeout = const Duration(seconds: 30);
@@ -127,11 +125,67 @@ class CalenderApiServices {
       },
     );
     try {
-      final Response response = await _dio
-          .get('$baseUrl/parking/user/parkings', options: options);
+      final Response response =
+          await _dio.get('$baseUrl/parking/user/parkings', options: options);
       return response;
     } catch (error) {
       rethrow; // Throwing error for handling in case of unsuccessful request
+    }
+  }
+
+  ///get information parking
+  Future<Response> getInfoParkingUser(String id) async {
+    _dio.options.connectTimeout = const Duration(seconds: 30);
+    _dio.options.receiveTimeout = const Duration(seconds: 30);
+    _dio.options.sendTimeout = const Duration(seconds: 30);
+    final token = await SecureStorageClass().getUserToken();
+
+    // Adding the token to the request headers
+    Options options = Options(
+      headers: {
+        'Authorization': 'Token $token',
+      },
+    );
+    try {
+      final Response response = await _dio.get(
+          '$baseUrl/reservation/parking-reservations/$id/',
+          options: options);
+      return response;
+    } catch (error) {
+      rethrow; // Throwing error for handling in case of unsuccessful request
+    }
+  }
+
+  ///Edit Parking
+  Future<Response> editParkingUser(
+      String remainingCapacity, String price,String id) async {
+    try {
+      _dio.options.connectTimeout = const Duration(seconds: 30);
+      _dio.options.receiveTimeout = const Duration(seconds: 30);
+      _dio.options.sendTimeout = const Duration(seconds: 30);
+
+      final token = await SecureStorageClass().getUserToken();
+
+      // Adding the token to the request headers
+      Options options = Options(
+        headers: {
+          'Authorization': 'Token $token',
+          'Content-Type': 'application/json'
+        },
+      );
+
+      final Response response = await _dio.put(
+        '$baseUrl/reservation/parking-reservations/$id/',
+        data: {
+          "remaining_capacity": remainingCapacity,
+          "price": price,
+        },
+        options: options, // Using the request headers
+      );
+      return response;
+    } catch (e) {
+      print('Error calling login token API: $e');
+      throw e;
     }
   }
 }

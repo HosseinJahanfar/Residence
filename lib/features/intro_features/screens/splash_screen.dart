@@ -25,7 +25,10 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 2),
       () async {
         if (await SharedPerf().getHostStatus()) {
-
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            ScreenNames.bottomNavBarHostScreen,
+                (route) => false,
+          );
 
         } else {
           if (await SharedPerf().getIntroStatus()) {

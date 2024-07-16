@@ -24,4 +24,9 @@ class SharedPerf {
     pref = await SharedPreferences.getInstance();
     pref.setBool('host', true);
   }
+
+  Future<void> setGuestStatus() async {
+    pref = await SharedPreferences.getInstance();
+    pref.setBool('host', false);
+  }
 }

@@ -6,6 +6,8 @@ import 'package:residence/features/host_features/calender_features/model/registe
 import '../../../../const/connection.dart';
 import '../../../../const/shape/border_radius.dart';
 import '../../../../const/shape/media_query.dart';
+import '../../../../const/string.dart';
+import '../../../../route/names.dart';
 
 class SliverListRegisterParkingUserItem extends StatelessWidget {
   const SliverListRegisterParkingUserItem(
@@ -18,7 +20,12 @@ class SliverListRegisterParkingUserItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        KeySendDataHost.idHostSubmitParking = helper[index].id!;
 
+        Navigator.pushNamed(
+          context,
+          ScreenNames.manageParkingScreen,
+        );
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 5.sp, horizontal: 10.sp),
@@ -43,13 +50,13 @@ class SliverListRegisterParkingUserItem extends StatelessWidget {
                       errorWidget: (context, url, error) => Image.asset(
                         'assets/images/logo.png',
                         errorBuilder: (context, error, stackTrace) =>
-                        const SizedBox.shrink(),
+                            const SizedBox.shrink(),
                         fit: BoxFit.contain,
                       ),
                       placeholder: (context, url) => Image.asset(
                         'assets/images/logo.png',
                         errorBuilder: (context, error, stackTrace) =>
-                        const SizedBox.shrink(),
+                            const SizedBox.shrink(),
                         fit: BoxFit.contain,
                       ),
                     ),

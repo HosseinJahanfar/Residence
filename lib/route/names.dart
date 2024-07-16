@@ -27,6 +27,7 @@ class ScreenNames {
   static const parkingDetailScreen = "/parkingDetailScreen";
   static const addressParkingScreen = "/addressParkingScreen";
   static const financialScreen = "/financialScreen";
+  static const manageParkingScreen = "/manageParkingScreen";
 
 
 }

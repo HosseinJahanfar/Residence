@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:residence/features/host_features/calender_features/model/edit_parking_model.dart';
 import 'package:residence/features/host_features/calender_features/model/register_parking_user_model.dart';
 import 'package:residence/features/host_features/calender_features/services/calender_api_services.dart';
 import '../model/all_date_model.dart';
@@ -93,6 +94,42 @@ class CalenderRepository {
       }
     } catch (e) {
       throw Exception('Error: $e');
+    }
+  }
+
+  ///get information parking
+  Future<EditParkingModel> getInfoParkingUserRepository(String id) async {
+    try {
+      final Response response =
+          await _calenderApiServices.getInfoParkingUser(id);
+      if (response.statusCode == 200) {
+        EditParkingModel editParkingModel =
+            EditParkingModel.fromJson(response.data);
+
+        return editParkingModel;
+      } else {
+        throw Exception('Failed to load register residence users');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+///Edit Parking
+  Future<String> editParkingUserRepository(String remainingCapacity, String price,String id) async {
+    try {
+      Response response =
+      await _calenderApiServices.editParkingUser(remainingCapacity, price, id);
+
+      if (response.statusCode == 200) {
+        return 'اطلاعات پارکینگ با موفقیت ویرایش شد.';
+      } else if (response.statusCode == 403) {
+        return 'ظرفیت خالی نباید از ظرفیت کل بیشتر باشد!';
+      } else {
+        return 'سرور مشکل دارد';
+      }
+    } catch (e) {
+      return 'یک خطای ناشناخته رخ داد: $e';
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_font_icons/flutter_font_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:residence/const/shape/media_query.dart';
@@ -7,6 +8,8 @@ import 'package:residence/features/information_features/widget/about_widget.dart
 import 'package:residence/features/public_features/widget/snack_bar.dart';
 import 'package:residence/route/names.dart';
 
+import '../../intro_features/pref/shared_pref.dart';
+import '../../public_features/logic/bottom_nav_cubit.dart';
 import '../widget/info_widget.dart';
 
 class InformationGuest extends StatelessWidget {
@@ -57,7 +60,15 @@ class InformationGuest extends StatelessWidget {
                           subTitle:
                               'همین فضا را تبدیل به محیطی برای مدیریت اقامتگاه های خود کنید.',
                           iconData: FontAwesome.exchange,
-                          function: () {},
+                          function: () {
+                            SharedPerf().setHostStatus();
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              ScreenNames.bottomNavBarHostScreen,
+                              (route) => false,
+                            );
+                            BlocProvider.of<BottomNavCubit>(context)
+                                .onTabScreen(0);
+                          },
                         ),
 
                         SizedBox(

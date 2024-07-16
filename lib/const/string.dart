@@ -19,6 +19,8 @@ class KeySendDataHost {
   static double long = 0;
   static List<String> imageList = [];
   static int idHostSubmitResidence = 0;
+  static int idHostSubmitParking = 0;
+
 
   //!calculate data List
   static List<String> sendDates = [];

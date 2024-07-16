@@ -46,7 +46,6 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-
       statusBarColor: systemChrome,
       statusBarIconBrightness: Brightness.dark,
       systemNavigationBarColor: systemChrome,

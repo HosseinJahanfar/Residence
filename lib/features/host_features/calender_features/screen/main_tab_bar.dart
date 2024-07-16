@@ -7,6 +7,7 @@ import 'package:residence/const/theme/colors.dart';
 import 'package:residence/features/host_features/calender_features/screen/register_parking.dart';
 import 'package:residence/features/host_features/calender_features/screen/register_residence_user.dart';
 import 'package:residence/features/host_features/calender_features/services/calender_api_services.dart';
+import 'package:residence/features/host_features/calender_features/services/calender_repository.dart';
 
 class MainTabBar extends StatefulWidget {
   const MainTabBar({super.key});
